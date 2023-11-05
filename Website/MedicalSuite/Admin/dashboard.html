@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <!-- jQuery library -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="/Admin/dashboard.html">Medical Suite</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="#">Patients</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Appointments</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/Admin/doctor.html">Doctors</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Reviews</a>
+        </li>
+        <li class="nav-item">
+          <!-- this div part must be separated it should be on the right side -->
+          <div class="nav-item">
+            <!-- Add a "Welcome Admin" message -->
+            <li class="nav-item">
+              <a class="nav-link" href="#">Welcome Admin</a>
+            </li>
+            <!-- Add a logout button that triggers the logOut function -->
+            <li class="nav-item">
+              <a class="nav-link" href="#" id="logoutButton">Logout</a>
+            </li>
+        </div>
+        </li>
+      </ul>
+    </div>  
+  </nav>
+  <main role="main">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+      <h1 class="h2">Dashboard</h1>
+      <div class="btn-toolbar mb-2 mb-md-0">
+        <div class="btn-group mr-2">
+          <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
+          <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
+        </div>
+        <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
+          This week
+        </button>
+      </div>
+    </div>
+    <!-- Sample Content -->
+    <div class="row">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Card Title 1</h5>
+            <p class="card-text">Sample content for Card 1.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Card Title 2</h5>
+            <p class="card-text">Sample content for Card 2.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <!-- Popper JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <!-- Latest compiled JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <!-- Add Firebase JavaScript SDK -->
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-firestore.js"></script>
+  <!-- Initialize Firebase -->
+  <script>
+    var firebaseConfig = {
+      apiKey: "AIzaSyBVmFA1iK5MSKLIhf3ACo6E0meUeRbPCgs",
+      authDomain: "medicalsuite-99e48.firebaseapp.com",
+      projectId: "medicalsuite-99e48",
+      storageBucket: "medicalsuite-99e48.appspot.com",
+      messagingSenderId: "679686285511",
+      appId: "1:679686285511:web:be7e727760a15a61a9f6e2"
+    };
+    firebase.initializeApp(firebaseConfig);
+
+    // Get a reference to the Firebase Authentication service
+    var auth = firebase.auth();
+
+    // Add an event listener to the logout button
+    document.getElementById('logoutButton').addEventListener('click', function() {
+      auth.signOut().then(function() {
+        // Sign-out successful. Redirect to the index page.
+        window.location.href = '/index.html';
+      }).catch(function(error) {
+        // An error happened during sign-out.
+        console.error("Logout error:", error);
+      });
+    });
+  </script>
+</body>
+</html>

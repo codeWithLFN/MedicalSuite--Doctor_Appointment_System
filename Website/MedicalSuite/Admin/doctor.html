@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctors</title>
+    <!-- Add Bootstrap CSS and JavaScript links -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- jQuery library -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/Admin/dashboard.html">Medical Suite</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" href="#">Patients</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Appointments</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/Admin/doctor.html">Doctors</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Reviews</a>
+            </li>
+          </ul>
+        </div>
+    </nav>
+
+    <main role="main">
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h2">Doctors</h1>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addDoctorModal">Add Doctor</button>
+        </div>
+
+        <div class="container mt-5">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Doctor ID</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Surname</th>
+                        <th scope="col">Specialty</th>
+                        <th scope="col">Available Days</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Password</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody id="doctorsTableBody">
+                    <!-- Doctors' information will be displayed here -->
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <!-- Add Doctor Modal -->
+    <div class="modal fade" id="addDoctorModal" tabindex="-1" role="dialog" aria-labelledby="addDoctorModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addDoctorModalLabel">Add Doctor</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Add Doctor form will be dynamically generated here -->
+                    <form id="addDoctorForm">
+                        <div class="form-group">
+                            <label for="doctorId">Doctor ID</label>
+                            <input type="text" class="form-control" id="doctorId" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="doctorName">Name</label>
+                            <input type="text" class="form-control" id="doctorName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="doctorSurname">Surname</label>
+                            <input type="text" class="form-control" id="doctorSurname" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Specialty</label><br>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="specialty1" value="Optometrists">
+                                <label class="form-check-label" for="specialty1">Optometrists</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="specialty2" value="Gynaecologist">
+                                <label class="form-check-label" for="specialty2">Gynaecologist</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="specialty3" value="Orthodontics">
+                                <label class="form-check-label" for="specialty3">Orthodontics(Dentistry)</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="specialty4" value="Family medicine">
+                                <label class="form-check-label" for="specialty4">Family medicine</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="specialty5" value="Dermatologists">
+                                <label class="form-check-label" for="specialty5">Dermatologists</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="specialty6" value="Cardiologists">
+                                <label class="form-check-label" for="specialty6">Cardiologists</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="doctorAvailableDays">Available Days</label><br>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="monday">
+                                <label class="form-check-label" for="monday">Monday</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="tuesday">
+                                <label class="form-check-label" for="tuesday">Tuesday</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="wednesday">
+                                <label class="form-check-label" for="wednesday">Wednesday</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="thursday">
+                                <label class="form-check-label" for="thursday">Thursday</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="friday">
+                                <label class="form-check-label" for="friday">Friday</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="saturday">
+                                <label class="form-check-label" for="saturday">Saturday</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="sunday">
+                                <label class="form-check-label" for="sunday">Sunday</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="doctorEmail">Email</label>
+                            <input type="email" class="form-control" id="doctorEmail" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="doctorPassword">Password</label>
+                            <input type="password" class="form-control" id="doctorPassword" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="saveDoctorButton" data-dismiss="modal">Add Doctor</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+      <!-- Add Firebase JavaScript SDK -->
+      <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-firestore.js"></script>
+      <script src="/firebase/firebase-config.js"></script>
+
+    <script>
+        // Initialize Firebase
+        var firebaseConfig = {
+            // Your Firebase configuration goes here
+            apiKey: "AIzaSyBVmFA1iK5MSKLIhf3ACo6E0meUeRbPCgs",
+            authDomain: "medicalsuite-99e48.firebaseapp.com",
+            projectId: "medicalsuite-99e48",
+            storageBucket: "medicalsuite-99e48.appspot.com",
+            messagingSenderId: "679686285511",
+            appId: "1:679686285511:web:be7e727760a15a61a9f6e2"
+        };
+        firebase.initializeApp(firebaseConfig);
+
+        // Get a reference to the Firestore database
+        var db = firebase.firestore();
+
+        // Add event listener to the "Save changes" button
+        document.getElementById("saveDoctorButton").addEventListener("click", function() {
+            // Retrieve the values of the input fields in the form
+            var doctorId = document.getElementById("doctorId").value;
+            var doctorName = document.getElementById("doctorName").value;
+            var doctorSurname = document.getElementById("doctorSurname").value;
+            var doctorAvailableDays = [];
+            if (document.getElementById("monday").checked) {
+                doctorAvailableDays.push("Monday");
+            }
+            if (document.getElementById("tuesday").checked) {
+                doctorAvailableDays.push("Tuesday");
+            }
+            if (document.getElementById("wednesday").checked) {
+                doctorAvailableDays.push("Wednesday");
+            }
+            if (document.getElementById("thursday").checked) {
+                doctorAvailableDays.push("Thursday");
+            }
+            if (document.getElementById("friday").checked) {
+                doctorAvailableDays.push("Friday");
+            }
+            if (document.getElementById("saturday").checked) {
+                doctorAvailableDays.push("Saturday");
+            }
+            if (document.getElementById("sunday").checked) {
+                doctorAvailableDays.push("Sunday");
+            }
+            var doctorEmail = document.getElementById("doctorEmail").value;
+            var doctorPassword = document.getElementById("doctorPassword").value;
+
+            // Retrieve the selected specialties
+            var doctorSpecialty = [];
+            var specialtyCheckboxes = document.querySelectorAll('input[name="specialty"]:checked');
+            specialtyCheckboxes.forEach(function(checkbox) {
+                doctorSpecialty.push(checkbox.value);
+            });
+
+            // Create a new document in the "doctors" collection in Firestore with the retrieved values
+            db.collection("doctors").add({
+                doctorId: doctorId,
+                doctorName: doctorName,
+                doctorSurname: doctorSurname,
+                doctorSpecialty: doctorSpecialty,
+                doctorAvailableDays: doctorAvailableDays,
+                doctorEmail: doctorEmail,
+                doctorPassword: doctorPassword
+            })
+            .then(function(docRef) {
+                // After the document is successfully created, close the modal and display a success message to the user
+                $('#addDoctorModal').modal('hide');
+                alert("Doctor added successfully!");
+            })
+            .catch(function(error) {
+                console.error("Error adding doctor: ", error);
+            });
+        });
+
+        // Function to delete a doctor by document ID
+        function deleteDoctor(doctorId) {
+            if (confirm("Are you sure you want to delete this doctor?")) {
+                db.collection("doctors").doc(doctorId).delete()
+                    .then(function() {
+                        // Delete the corresponding row in the table
+                        var row = document.getElementById(doctorId);
+                        if (row) {
+                            row.remove();
+                        }
+                        alert("Doctor deleted successfully!");
+                    })
+                    .catch(function(error) {
+                        console.error("Error deleting doctor: ", error);
+                    });
+            }
+        }
+
+        // Retrieve the list of doctors from Firestore and display them in the table
+        db.collection("doctors").get().then(function(querySnapshot) {
+            querySnapshot.forEach(function(doc) {
+                var data = doc.data();
+                var row = "<tr id='" + doc.id + "'>" +
+                    "<td>" + data.doctorId + "</td>" +
+                    "<td>" + data.doctorName + "</td>" +
+                    "<td>" + data.doctorSurname + "</td>" +
+                    "<td>" + data.doctorSpecialty.join(", ") + "</td>" +
+                    "<td>" + data.doctorAvailableDays.join(", ") + "</td>" +
+                    "<td>" + data.doctorEmail + "</td>" +
+                    "<td>" + data.doctorPassword + "</td>" +
+                    "<td><button class='btn btn-danger' onclick='deleteDoctor(\"" + doc.id + "\")'>Delete</button></td>" +
+                    "</tr>";
+                document.getElementById("doctorsTableBody").innerHTML += row;
+            });
+        });
+    </script>
+
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+
+

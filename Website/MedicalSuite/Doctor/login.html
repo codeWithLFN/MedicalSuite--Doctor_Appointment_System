@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Doctor Login</title>
+    <!-- Add Bootstrap CSS and JavaScript links -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Doctor Login</h1>
+        <form id="login-form">
+            <div class="form-group">
+                <label for="doctorEmail">Username:</label>
+                <input type="text" class="form-control" id="doctorEmail" name="doctorEmail">
+            </div>
+            <div class="form-group">
+                <label for="doctorPassword">Password:</label>
+                <input type="password" class="form-control" id="doctorPassword" name="doctorPassword">
+            </div>
+            <button type="submit" class="btn btn-primary">Login</button>
+        </form>
+    </div>
+
+    <!-- Add Firebase JavaScript SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-firestore.js"></script>
+
+    <!-- Initialize Firebase -->
+    <script>
+        var firebaseConfig = {
+          apiKey: "AIzaSyBVmFA1iK5MSKLIhf3ACo6E0meUeRbPCgs",
+            authDomain: "medicalsuite-99e48.firebaseapp.com",
+            projectId: "medicalsuite-99e48",
+            storageBucket: "medicalsuite-99e48.appspot.com",
+            messagingSenderId: "679686285511",
+            appId: "1:679686285511:web:be7e727760a15a61a9f6e2"
+        };
+        firebase.initializeApp(firebaseConfig);
+
+        // Get a reference to the Firebase Authentication service
+        var auth = firebase.auth();
+
+        // Get a reference to the Firestore database
+        var db = firebase.firestore();
+
+        // Add an event listener to the login form
+        document.getElementById('login-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the form from submitting
+
+            // Get the doctor's email and password
+            var doctorEmail = document.getElementById('doctorEmail').value;
+            var doctorPassword = document.getElementById('doctorPassword').value;
+
+            // Simulate user authentication using Firestore (replace this with your custom logic)
+            db.collection('doctors').where('doctorEmail', '==', doctorEmail).where('doctorPassword', '==', doctorPassword)
+                .get()
+                .then(function(querySnapshot) {
+                    if (querySnapshot.docs.length === 1) {
+                        // User authenticated successfully (found in Firestore)
+                        window.location.href = '/doctor/dashboard.html'; // Redirect to the doctor's dashboard
+                    } else {
+                        // Authentication failed (user not found or invalid credentials)
+                        console.log('Email or password is incorrect');
+                    }
+                })
+                .catch(function(error) {
+                    // Handle authentication errors
+                    console.log('Authentication error:', error);
+                });
+        });
+    </script>
+
+    <!-- Add Bootstrap JavaScript link (if needed) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
