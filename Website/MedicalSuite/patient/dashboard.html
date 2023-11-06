@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard</title>
   <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -77,7 +77,7 @@
             <label for="appointmentTime">Appointment Time:</label>
             <input type="time" class="form-control" id="appointmentTime">
           </div>
-          <button type="submit" class="btn btn-primary">Set Appointment</button>
+          <button type="button" class="btn btn-primary" onclick="setAppointment()">Set Appointment</button>
         </form>
       </div>
       <div class="modal-footer">
@@ -117,8 +117,8 @@
           <div class="card-body">
             <h5 class="card-title">${doc.data().doctorName} ${doc.data().doctorSurname}</h5>
             <p class="card-text">Specialty: ${doc.data().doctorSpecialty}</p>
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#scheduleModal" onclick="showSchedule('${doc.id}')">
-                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#appointmentModal" onclick="setAppointment('${doc.id}')">Set Appointment</button>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#scheduleModal" onclick="showSchedule('${doc.id}')">View Schedule</button>
+            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#appointmentModal" data-doctor-id="${doc.id}">Set Appointment</button>
           </div>
         </div>
       </div>
@@ -145,9 +145,12 @@
   }
 
   // Function to set an appointment
-  function setAppointment(doctorId) {
+  function setAppointment() {
     var appointmentDate = document.getElementById("appointmentDate").value;
     var appointmentTime = document.getElementById("appointmentTime").value;
+
+    // Get the selected doctor's ID from the modal
+    var doctorId = document.getElementById("appointmentModal").getAttribute("data-doctor-id");
 
     // Perform appointment setting logic here
     // You can save the appointment details to the database or perform any other necessary actions
@@ -156,9 +159,8 @@
     document.getElementById("appointmentDate").value = "";
     document.getElementById("appointmentTime").value = "";
 
-    //Save the appointment details to sub collection appointments on patients collection
-    db.collection("patients").doc(firebase.auth().currentUser.uid).collection("appointments").add({
-      doctorId: doctorId,
+    // Save the appointment details to a sub-collection
+    db.collection("doctors").doc(doctorId).collection("appointments").add({
       appointmentDate: appointmentDate,
       appointmentTime: appointmentTime
     }).then((docRef) => {
@@ -174,6 +176,6 @@
 <!-- Bootstrap JavaScript -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
