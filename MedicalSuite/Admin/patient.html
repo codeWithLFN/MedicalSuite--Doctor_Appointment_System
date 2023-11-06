@@ -1,0 +1,305 @@
+<!-- FILEPATH: /c:/Users/HyperLFN/Documents/GitHub/MedicalSuite--Doctor_Appointment_System/Website/MedicalSuite/Admin/patient.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Patients</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous">
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">MedicalSuite</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item active">
+          <a class="nav-link" href="#">Patients<span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Appointments</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/Admin/doctor.html">Doctors</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Reviews</a>
+          </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Add Patient Button -->
+  <button type="button" class="btn btn-primary my-3 mx-3" data-toggle="modal" data-target="#addPatientModal">Add Patient</button>
+
+  <!-- Patient Table -->
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Surname</th>
+        <th scope="col">Phone Number</th>
+        <th scope="col">Email</th>
+        <th scope="col">Password</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Table rows will be dynamically generated using JavaScript -->
+    </tbody>
+  </table>
+
+  <!-- Edit Patient Modal -->
+  <div class="modal fade" id="editPatientModal" tabindex="-1" role="dialog" aria-labelledby="editPatientModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editPatientModalLabel">Edit Patient</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <!-- Edit Patient Form -->
+          <form>
+            <div class="form-group">
+              <label for="editPatientName">Name</label>
+              <input type="text" class="form-control" id="editPatientName" required>
+            </div>
+            <div class="form-group">
+              <label for="editPatientSurname">Surname</label>
+              <input type="text" class="form-control" id="editPatientSurname" required>
+            </div>
+            <div class="form-group">
+              <label for="editPatientPhoneNumber">Phone Number</label>
+              <input type="tel" class="form-control" id="editPatientPhoneNumber" required>
+            </div>
+            <div class="form-group">
+              <label for="editPatientEmail">Email</label>
+              <input type="email" class="form-control" id="editPatientEmail" required>
+            </div>
+            <div class="form-group">
+              <label for="editPatientPassword">Password</label>
+              <input type="password" class="form-control" id="editPatientPassword" required>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" id="savePatientChanges">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Patient Modal -->
+  <div class="modal fade" id="addPatientModal" tabindex="-1" role="dialog" aria-labelledby="addPatientModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addPatientModalLabel">Add Patient</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <!-- Add Patient Form -->
+          <form>
+            <div class="form-group">
+              <label for="addPatientName">Name</label>
+              <input type="text" class="form-control" id="addPatientName" required>
+            </div>
+            <div class="form-group">
+              <label for="addPatientSurname">Surname</label>
+              <input type="text" class="form-control" id="addPatientSurname" required>
+            </div>
+            <div class="form-group">
+              <label for="addPatientPhoneNumber">Phone Number</label>
+              <input type="tel" class="form-control" id="addPatientPhoneNumber" required>
+            </div>
+            <div class="form-group">
+              <label for="addPatientEmail">Email</label>
+              <input type="email" class="form-control" id="addPatientEmail" required>
+            </div>
+            <div class="form-group">
+              <label for="addPatientPassword">Password</label>
+              <input type="password" class="form-control" id="addPatientPassword" required>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" id="addPatient">Add Patient</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- jQuery and Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+  <script src="https://cdn.jsdelivr.net/npm/firebase@8.2.1/firebase-app.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/firebase@8.2.1/firebase-firestore.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+  <script>
+    // Firebase configuration
+    var firebaseConfig = {
+        apiKey: "AIzaSyBVmFA1iK5MSKLIhf3ACo6E0meUeRbPCgs",
+        authDomain: "medicalsuite-99e48.firebaseapp.com",
+        projectId: "medicalsuite-99e48",
+        storageBucket: "medicalsuite-99e48.appspot.com",
+        messagingSenderId: "679686285511",
+        appId: "1:679686285511:web:be7e727760a15a61a9f6e2"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    // Get a reference to the patients collection
+    var patientsRef = firebase.firestore().collection("patients");
+
+    // Display patients in the table
+    function displayPatients() {
+      patientsRef.get().then(function(querySnapshot) {
+        var tableRows = "";
+        querySnapshot.forEach(function(doc) {
+          var patient = doc.data();
+          tableRows += "<tr>";
+          tableRows += "<td>" + doc.id + "</td>";
+          tableRows += "<td>" + patient.name + "</td>";
+          tableRows += "<td>" + patient.surname + "</td>";
+          tableRows += "<td>" + patient.phoneNumber + "</td>";
+          tableRows += "<td>" + patient.email + "</td>";
+          tableRows += "<td>" + patient.password + "</td>";
+          tableRows += "<td>";
+          tableRows += "<button type='button' class='btn btn-primary edit-patient' data-toggle='modal' data-target='#editPatientModal' data-patient-id='" + doc.id + "'>Edit</button>";
+          tableRows += "<button type='button' class='btn btn-danger delete-patient' data-patient-id='" + doc.id + "'>Delete</button>";
+          tableRows += "</td>";
+          tableRows += "</tr>";
+        });
+        $("tbody").html(tableRows);
+      });
+    }
+
+    // Add patient
+    $("#addPatient").click(function() {
+      var name = $("#addPatientName").val();
+      var surname = $("#addPatientSurname").val();
+      var phoneNumber = $("#addPatientPhoneNumber").val();
+      var email = $("#addPatientEmail").val();
+      var password = $("#addPatientPassword").val();
+      patientsRef.add({
+        name: name,
+        surname: surname,
+        phoneNumber: phoneNumber,
+        email: email,
+        password: password
+      }).then(function() {
+        $("#addPatientModal").modal("hide");
+        Swal.fire({
+          icon: "success",
+          title: "Patient added successfully!",
+          showConfirmButton: false,
+          timer: 1500
+        });
+        displayPatients();
+      }).catch(function(error) {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Something went wrong! Please try again.",
+          footer: "<a href='#'>Why do I have this issue?</a>"
+        });
+      });
+    });
+
+    // Edit patient
+    $(document).on("click", ".edit-patient", function() {
+      var patientId = $(this).data("patient-id");
+      patientsRef.doc(patientId).get().then(function(doc) {
+        var patient = doc.data();
+        $("#editPatientName").val(patient.name);
+        $("#editPatientSurname").val(patient.surname);
+        $("#editPatientPhoneNumber").val(patient.phoneNumber);
+        $("#editPatientEmail").val(patient.email);
+        $("#editPatientPassword").val(patient.password);
+        $("#savePatientChanges").data("patient-id", patientId);
+      });
+    });
+
+    // Save patient changes
+    $("#savePatientChanges").click(function() {
+      var patientId = $(this).data("patient-id");
+      var name = $("#editPatientName").val();
+      var surname = $("#editPatientSurname").val();
+      var phoneNumber = $("#editPatientPhoneNumber").val();
+      var email = $("#editPatientEmail").val();
+      var password = $("#editPatientPassword").val();
+      patientsRef.doc(patientId).update({
+        name: name,
+        surname: surname,
+        phoneNumber: phoneNumber,
+        email: email,
+        password: password
+      }).then(function() {
+        $("#editPatientModal").modal("hide");
+        Swal.fire({
+          icon: "success",
+          title: "Patient updated successfully!",
+          showConfirmButton: false,
+          timer: 1500
+        });
+        displayPatients();
+      }).catch(function(error) {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Something went wrong! Please try again.",
+          footer: "<a href='#'>Why do I have this issue?</a>"
+        });
+      });
+    });
+
+    // Delete patient
+    $(document).on("click", ".delete-patient", function() {
+      var patientId = $(this).data("patient-id");
+      Swal.fire({
+        icon: "warning",
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+      }).then(function(result) {
+        if (result.isConfirmed) {
+          patientsRef.doc(patientId).delete().then(function() {
+            Swal.fire({
+              icon: "success",
+              title: "Patient deleted successfully!",
+              showConfirmButton: false,
+              timer: 1500
+            });
+            displayPatients();
+          }).catch(function(error) {
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: "Something went wrong! Please try again.",
+              footer: "<a href='#'>Why do I have this issue?</a>"
+            });
+          });
+        }
+      });
+    });
+
+    // Display patients on page load
+    displayPatients();
+  </script>
+</body>
+</html>
