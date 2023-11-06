@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">medicalSuite</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="#">Dashboard</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Appointments</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Logout</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<div class="container">
+  <h1>Welcome, Patient!</h1>
+  <hr>
+  <h2>Available Doctors</h2>
+  <div class="row" id="doctorsGrid">
+    <!-- Doctors will be dynamically added here -->
+  </div>
+</div>
+
+<!-- Modal for Doctor Schedule -->
+<div class="modal fade" id="scheduleModal" tabindex="-1" role="dialog" aria-labelledby="scheduleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="scheduleModalLabel">Doctor Schedule</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p id="doctorSchedule">Loading schedule...</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal for Setting Appointment -->
+<div class="modal fade" id="appointmentModal" tabindex="-1" role="dialog" aria-labelledby="appointmentModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="appointmentModalLabel">Set Appointment</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="appointmentDate">Appointment Date:</label>
+            <input type="date" class="form-control" id="appointmentDate">
+          </div>
+          <div class="form-group">
+            <label for="appointmentTime">Appointment Time:</label>
+            <input type="time" class="form-control" id="appointmentTime">
+          </div>
+          <button type="submit" class="btn btn-primary">Set Appointment</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Add Firebase JavaScript SDK -->
+<script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-firestore.js"></script>
+
+<script>
+  var firebaseConfig = {
+    apiKey: "AIzaSyBVmFA1iK5MSKLIhf3ACo6E0meUeRbPCgs",
+    authDomain: "medicalsuite-99e48.firebaseapp.com",
+    projectId: "medicalsuite-99e48",
+    storageBucket: "medicalsuite-99e48.appspot.com",
+    messagingSenderId: "679686285511",
+    appId: "1:679686285511:web:be7e727760a15a61a9f6e2"
+  };
+
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+
+  var db = firebase.firestore();
+
+  // Fetch and display doctors
+  db.collection("doctors").get().then((querySnapshot) => {
+    querySnapshot.forEach((doc) => {
+      var doctorDiv = document.createElement("div");
+      doctorDiv.classList.add("col-md-4");
+      doctorDiv.innerHTML = `
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">${doc.data().doctorName} ${doc.data().doctorSurname}</h5>
+            <p class="card-text">Specialty: ${doc.data().doctorSpecialty}</p>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#scheduleModal" onclick="showSchedule('${doc.id}')">
+                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#appointmentModal" onclick="setAppointment('${doc.id}')">Set Appointment</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  `;
+      document.getElementById("doctorsGrid").appendChild(doctorDiv);
+    });
+  });
+
+  // Function to show the doctor's schedule
+  function showSchedule(doctorId) {
+    var doctorSchedule = document.getElementById("doctorSchedule");
+    doctorSchedule.innerHTML = "Loading schedule...";
+
+    db.collection("doctors").doc(doctorId).get().then((doc) => {
+      if (doc.exists) {
+        var schedule = doc.data().doctorAvailableDays;
+        doctorSchedule.innerHTML = "Available Days: " + schedule.join(", ");
+      } else {
+        doctorSchedule.innerHTML = "Schedule not found.";
+      }
+    });
+  }
+
+  // Function to set an appointment
+  function setAppointment(doctorId) {
+    var appointmentDate = document.getElementById("appointmentDate").value;
+    var appointmentTime = document.getElementById("appointmentTime").value;
+
+    // Perform appointment setting logic here
+    // You can save the appointment details to the database or perform any other necessary actions
+
+    // Clear the input fields
+    document.getElementById("appointmentDate").value = "";
+    document.getElementById("appointmentTime").value = "";
+
+    //Save the appointment details to sub collection appointments on patients collection
+    db.collection("patients").doc(firebase.auth().currentUser.uid).collection("appointments").add({
+      doctorId: doctorId,
+      appointmentDate: appointmentDate,
+      appointmentTime: appointmentTime
+    }).then((docRef) => {
+      console.log("Document written with ID: ", docRef.id);
+    }).catch((error) => {
+      console.error("Error adding document: ", error);
+    });
+
+    // Close the modal
+    $("#appointmentModal").modal("hide");
+  }
+</script>
+<!-- Bootstrap JavaScript -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
