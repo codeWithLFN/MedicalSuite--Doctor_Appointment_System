@@ -39,36 +39,37 @@
         firebase.initializeApp(firebaseConfig);
 
         // Get a reference to the Firebase Authentication service
-        var auth = firebase.auth();
+var auth = firebase.auth();
 
-        // Get a reference to the Firestore database
-        var db = firebase.firestore();
+// Add an event listener to the login form
+document.getElementById('login-form').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent the form from submitting
 
-        // Add an event listener to the login form
-        document.getElementById('login-form').addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent the form from submitting
+    // Get the doctor's email and password
+    var doctorEmail = document.getElementById('doctorEmail').value;
+    var doctorPassword = document.getElementById('doctorPassword').value;
 
-            // Get the doctor's email and password
-            var doctorEmail = document.getElementById('doctorEmail').value;
-            var doctorPassword = document.getElementById('doctorPassword').value;
+    // Authenticate the doctor
+    auth.signInWithEmailAndPassword(doctorEmail, doctorPassword)
+        .then(function(userCredential) {
+            var user = userCredential.user;
+            
+            if (user) {
+                var doctorId = user.uid; // Get the authenticated doctor's UID
 
-            // Simulate user authentication using Firestore (replace this with your custom logic)
-            db.collection('doctors').where('doctorEmail', '==', doctorEmail).where('doctorPassword', '==', doctorPassword)
-                .get()
-                .then(function(querySnapshot) {
-                    if (querySnapshot.docs.length === 1) {
-                        // User authenticated successfully (found in Firestore)
-                        window.location.href = '/doctor/dashboard.html'; // Redirect to the doctor's dashboard
-                    } else {
-                        // Authentication failed (user not found or invalid credentials)
-                        console.log('Email or password is incorrect');
-                    }
-                })
-                .catch(function(error) {
-                    // Handle authentication errors
-                    console.log('Authentication error:', error);
-                });
+                // Redirect to the doctor's dashboard
+                window.location.href = '/doctor/dashboard.html';
+            } else {
+                // Handle authentication errors
+                console.log('Email or password is incorrect');
+            }
+        })
+        .catch(function(error) {
+            // Handle authentication errors
+            console.log('Authentication error:', error);
         });
+});
+
     </script>
 
     <!-- Add Bootstrap JavaScript link (if needed) -->

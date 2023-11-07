@@ -146,32 +146,66 @@
 
   // Function to set an appointment
   function setAppointment() {
-    var appointmentDate = document.getElementById("appointmentDate").value;
-    var appointmentTime = document.getElementById("appointmentTime").value;
+  var appointmentDate = document.getElementById("appointmentDate").value;
+  var appointmentTime = document.getElementById("appointmentTime").value;
 
-    // Get the selected doctor's ID from the modal
-    var doctorId = document.getElementById("appointmentModal").getAttribute("data-doctor-id");
+  // Get the selected doctor's ID from the button
+  var doctorId = document.getElementById("appointmentModal").getAttribute("data-doctor-id");
 
-    // Perform appointment setting logic here
-    // You can save the appointment details to the database or perform any other necessary actions
+  // Get the currently authenticated doctor's UID
+  var doctorUser = firebase.auth().currentUser;
 
-    // Clear the input fields
-    document.getElementById("appointmentDate").value = "";
-    document.getElementById("appointmentTime").value = "";
+  if (doctorUser) {
+    var doctorId = doctorUser.uid; // Use the authenticated doctor's UID as the doctor's ID
 
-    // Save the appointment details to a sub-collection
-    db.collection("doctors").doc(doctorId).collection("appointments").add({
-      appointmentDate: appointmentDate,
-      appointmentTime: appointmentTime
-    }).then((docRef) => {
-      console.log("Document written with ID: ", docRef.id);
-    }).catch((error) => {
-      console.error("Error adding document: ", error);
-    });
+    // Get the currently authenticated patient's UID
+    var patientUser = firebase.auth().currentUser;
 
-    // Close the modal
-    $("#appointmentModal").modal("hide");
+    if (patientUser) {
+      var patientId = patientUser.uid; // Use the authenticated patient's UID as the patient's ID
+
+      // Perform appointment setting logic here
+      // Save the appointment details under the patient's collection in Firestore
+
+      db.collection("patients").doc(patientId).collection("appointments").add({
+        appointmentDate: appointmentDate,
+        appointmentTime: appointmentTime,
+        doctorId: doctorId, // Store the doctor's ID for reference
+      }).then((patientDocRef) => {
+        console.log("Patient document written with ID: ", patientDocRef.id);
+
+        // Save the same appointment details under the doctor's collection
+        db.collection("doctors").doc(doctorId).collection("appointments").add({
+          appointmentDate: appointmentDate,
+          appointmentTime: appointmentTime,
+          patientId: patientId, // Store the patient's ID for reference
+        }).then((doctorDocRef) => {
+          console.log("Doctor document written with ID: ", doctorDocRef.id);
+        }).catch((doctorError) => {
+          console.error("Error adding doctor document: ", doctorError);
+        });
+
+      }).catch((patientError) => {
+        console.error("Error adding patient document: ", patientError);
+      });
+
+      // Clear the input fields
+      document.getElementById("appointmentDate").value = "";
+      document.getElementById("appointmentTime").value = "";
+
+      // Close the modal
+      $("#appointmentModal").modal("hide");
+    } else {
+      // Handle the case where the user is not authenticated or not logged in as a patient
+      console.error("Patient is not authenticated.");
+    }
+  } else {
+    // Handle the case where the user is not authenticated or not logged in as a doctor
+    console.error("Doctor is not authenticated.");
   }
+}
+
+
 </script>
 <!-- Bootstrap JavaScript -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
