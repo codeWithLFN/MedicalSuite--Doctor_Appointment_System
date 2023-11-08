@@ -17,28 +17,26 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
+        <!-- Add a "Welcome Admin" message -->
         <li class="nav-item">
-          <a class="nav-link" href="#">Patients</a>
+          <a class="nav-link" href="#">Welcome Admin</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Appointments</a>
+          <a class="nav-link" href="/Admin/patient.html">Patients</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/Admin/appointment.html">Appointments</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/Admin/doctor.html">Doctors</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Reviews</a>
-        </li>
-        <li class="nav-item">
           <!-- this div part must be separated it should be on the right side -->
           <div class="nav-item">
-            <!-- Add a "Welcome Admin" message -->
-            <li class="nav-item">
-              <a class="nav-link" href="#">Welcome Admin</a>
-            </li>
+            
             <!-- Add a logout button that triggers the logOut function -->
             <li class="nav-item">
-              <a class="nav-link" href="#" id="logoutButton">Logout</a>
+              <a class="nav-link" href="#" id="logout-link" id="logoutButton">Logout</a>
             </li>
         </div>
         </li>
@@ -112,5 +110,23 @@
       });
     });
   </script>
+
+<script>
+  document.getElementById("logout-link").addEventListener("click", function(event) {
+    event.preventDefault(); // Prevent the default link behavior
+
+    // Add debug statements
+  console.log("Logout link clicked");
+
+// Send a request to your server to log the user out (if needed)
+// Make sure this part is functioning correctly
+
+// Redirect the user to the login page or homepage after logout
+window.location.href = "/index.html"; // Homepage
+
+// Add a debug statement to check if the redirection code is executed
+console.log("Redirecting to index.html");
+});
+</script>
 </body>
 </html>

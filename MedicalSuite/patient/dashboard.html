@@ -9,7 +9,7 @@
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#">medicalSuite</a>
+  <a class="navbar-brand" href="/Admin/dashboard.html">Medical Suite</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -149,17 +149,11 @@
 
   // Function to set an appointment
   function setAppointment() {
-  var appointmentDate = document.getElementById("appointmentDate").value;
-  var appointmentTime = document.getElementById("appointmentTime").value;
+    var appointmentDate = document.getElementById("appointmentDate").value;
+    var appointmentTime = document.getElementById("appointmentTime").value;
 
-  // Get the selected doctor's ID from the button
-  var doctorId = document.getElementById("appointmentModal").getAttribute("data-doctor-id");
-
-  // Get the currently authenticated doctor's UID
-  var doctorUser = firebase.auth().currentUser;
-
-  if (doctorUser) {
-    var doctorId = doctorUser.uid; // Use the authenticated doctor's UID as the doctor's ID
+    // Get the selected doctor's ID from the button
+    var doctorId = document.getElementById("appointmentModal").getAttribute("data-doctor-id");
 
     // Get the currently authenticated patient's UID
     var patientUser = firebase.auth().currentUser;
@@ -170,10 +164,13 @@
       // Perform appointment setting logic here
       // Save the appointment details under the patient's collection in Firestore
 
+      
+     
       db.collection("patients").doc(patientId).collection("appointments").add({
         appointmentDate: appointmentDate,
         appointmentTime: appointmentTime,
         doctorId: doctorId, // Store the doctor's ID for reference
+        
       }).then((patientDocRef) => {
         console.log("Patient document written with ID: ", patientDocRef.id);
 
@@ -202,11 +199,7 @@
       // Handle the case where the user is not authenticated or not logged in as a patient
       console.error("Patient is not authenticated.");
     }
-  } else {
-    // Handle the case where the user is not authenticated or not logged in as a doctor
-    console.error("Doctor is not authenticated.");
   }
-}
 
 
 </script>

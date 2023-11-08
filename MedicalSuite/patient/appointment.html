@@ -9,13 +9,13 @@
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class a="navbar-brand" href="#">medicalSuite</a>
+  <a class="navbar-brand" href="#">Medical Suite</a>
   <ul class="navbar-nav ml-auto">
     <li class="nav-item">
       <a class="nav-link" href="/patient/dashboard.html">Dashboard</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="#">Appointment</a>
+      <a class="nav-link" href="/patient/appointment.html">Appointment</a>
     </li>
     <li class="nav-item">
       <a class="nav-link" id="logout-link" href="#">Logout</a>
@@ -25,6 +25,7 @@
 
 <div class="container">
   <h1>Your Appointments</h1>
+
   <table class="table">
     <thead>
       <tr>
@@ -36,96 +37,84 @@
     <tbody id="appointmentsTable">
       <!-- Appointments will be dynamically added here -->
     </tbody>
+    <div class="modal-body">
+      <!-- Add Patient Form -->
   </table>
 </div>
 
-<!-- Add Firebase JavaScript SDK -->
+<!-- Include the Firebase JavaScript SDK -->
 <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-firestore.js"></script>
 
 <script>
+  // Firebase configuration
   var firebaseConfig = {
-    apiKey: "AIzaSyBVmFA1iK5MSKLIhf3ACo6E0meUeRbPCgs",
-    authDomain: "medicalsuite-99e48.firebaseapp.com",
-    projectId: "medicalsuite-99e48",
-    storageBucket: "medicalsuite-99e48.appspot.com",
-    messagingSenderId: "679686285511",
-    appId: "1:679686285511:web:be7e727760a15a61a9f6e2"
-  };
+        apiKey: "AIzaSyBVmFA1iK5MSKLIhf3ACo6E0meUeRbPCgs",
+        authDomain: "medicalsuite-99e48.firebaseapp.com",
+        projectId: "medicalsuite-99e48",
+        storageBucket: "medicalsuite-99e48.appspot.com",
+        messagingSenderId: "679686285511",
+        appId: "1:679686285511:web:be7e727760a15a61a9f6e2"
+    };
+   // Initialize Firebase
+firebase.initializeApp(firebaseConfig);
 
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
-
-  var db = firebase.firestore();
-
-  // Get the currently authenticated user (patient)
+// Function to display appointments
+function displayAppointments() {
   var user = firebase.auth().currentUser;
-
   if (user) {
-    // Use the authenticated user's UID as the patient's ID
-    var patientId = user.uid;
+    var appointmentsRef = firebase.firestore().collection("patients").doc(user.uid).collection("appointments");
 
-    // Reference to the patient's appointments collection
-    var appointmentsRef = db.collection("patients").doc(patientId).collection("appointments");
-
-    // Fetch and display patient's appointments
-    appointmentsRef.get().then((querySnapshot) => {
-      var appointmentsTable = document.getElementById("appointmentsTable");
-
-      querySnapshot.forEach((doc) => {
-        var data = doc.data();
-
-        var appointmentDate = data.appointmentDate;
-        var appointmentTime = data.appointmentTime;
-        var doctorId = data.doctorId;
-
-        // Use the unique UID within the appointments as the appointment ID
-        var appointmentId = doc.id;
-
-        // Fetch doctor information
-        db.collection("doctors").doc(doctorId).get().then((doctorDoc) => {
-          if (doctorDoc.exists) {
-            var doctorName = doctorDoc.data().doctorName;
-            var doctorSurname = doctorDoc.data().doctorSurname;
-            var doctorFullName = doctorName + " " + doctorSurname;
-
-            // Create a new row in the table for each appointment
-            var row = appointmentsTable.insertRow();
-            var cellDate = row.insertCell(0);
-            var cellTime = row.insertCell(1);
-            var cellDoctor = row.insertCell(2);
-
-            cellDate.innerHTML = appointmentDate;
-            cellTime.innerHTML = appointmentTime;
-            cellDoctor.innerHTML = doctorFullName;
-          }
-        });
+    appointmentsRef.get().then(function(querySnapshot) {
+      var tableRows = "";
+      querySnapshot.forEach(function(doc) {
+        var appointment = doc.data();
+        tableRows += "<tr>";
+        tableRows += "<td>" + doc.id + "</td>";
+        tableRows += "<td>" + appointment.appointmentDate + "</td>";
+        tableRows += "<td>" + appointment.appointmentTime + "</td>";
+        // Add other appointment details here
+        tableRows += "</tr>";
       });
+      $("tbody").html(tableRows);
     });
   } else {
     // Handle the case where the user is not authenticated
-    console.error("User is not authenticated.");
+    alert("User not authenticated. Please log in.");
+    // You can redirect them to the login page or display an error message
   }
+}
+
+// Event listener for changes in authentication state
+firebase.auth().onAuthStateChanged(function(user) {
+  if (user) {
+    // User is signed in
+    displayAppointments();
+  } else {
+    // No user is signed in
+    // Handle the case where the user is not authenticated
+    alert("User not authenticated. Please log in.");
+    // You can redirect them to the login page or display an error message
+  }
+});
+displayAppointments();
 </script>
 
-<!-- Bootstrap JavaScript -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<!-- Include Bootstrap JavaScript dependencies (jQuery and Popper.js) -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-..." crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-<!--This code is for the logout -->
+<!-- Logout script -->
 <script>
-    document.getElementById("logout-link").addEventListener("click", function(event) {
-      event.preventDefault(); // Prevent the default link behavior
+  document.getElementById("logout-link").addEventListener("click", function(event) {
+    event.preventDefault(); // Prevent the default link behavior
   
-      // Send a request to your server to log the user out (if needed)
-      // Make sure this part is functioning correctly
-  
-      // Redirect the user to the login page or homepage after logout
-      window.location.href = "/index.html"; // Homepage
-    });
-  </script>
-  
+    // Perform any necessary actions for logging the user out (server-side)
+    // Redirect the user to the login page or homepage after logout
+    window.location.href = "/index.html"; // Redirect to the homepage or login page
+  });
+</script>
 </body>
 </html>
