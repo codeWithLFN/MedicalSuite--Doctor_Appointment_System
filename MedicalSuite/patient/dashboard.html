@@ -6,6 +6,7 @@
   <title>Dashboard</title>
   <!-- Bootstrap CSS -->
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/patient/style.css">
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -19,22 +20,35 @@
         <a class="nav-link" href="/patient/dashboard.html">Dashboard</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/patient/appointment.html">Appointments</a>
-      </li>
-      <li class="nav-item">
         <a class="nav-link" id="logout-link" href="#">Logout</a>
       </li>
     </ul>
   </div>
 </nav>
 
-<div class="container">
-  <h1>Welcome, Patient!</h1>
+<div class="container-dashboard">
+  <h1>Welcome, <span id="name"></span></h1>
   <hr>
   <h2>Available Doctors</h2>
   <div class="row" id="doctorsGrid">
     <!-- Doctors will be dynamically added here -->
   </div>
+</div>
+
+<div class="container-dashboard mt-4">
+  <h2>My Appointments</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Doctor</th>
+        <th scope="col">Date</th>
+        <th scope="col">Time</th>
+      </tr>
+    </thead>
+    <tbody id="myAppointmentsTable">
+      <!-- Appointments for the logged-in user will be dynamically added here -->
+    </tbody>
+  </table>
 </div>
 
 <!-- Modal for Doctor Schedule -->
@@ -107,6 +121,9 @@
 
   var db = firebase.firestore();
 
+  // Get a reference to the Firebase Auth service
+  var auth = firebase.auth();
+
   // Fetch and display doctors
   db.collection("doctors").get().then((querySnapshot) => {
     querySnapshot.forEach((doc) => {
@@ -149,7 +166,25 @@
   var appointmentDate = document.getElementById("appointmentDate").value;
   var appointmentTime = document.getElementById("appointmentTime").value;
 
-  var doctorId = "ngZS5vhfzVqDnLPy1Lg0"; // Replace this with the doctor's ID
+  // If appointmentTime is before 10:00 and after 16:00, display an error message
+  if (appointmentTime < "10:00" || appointmentTime > "16:00") {
+    alert("Please set an appointment between 10:00 and 16:00.");
+    return;
+  }
+
+  // If appointmentDate is before today, display an error message
+  var today = new Date();
+  var appointmentDateObj = new Date(appointmentDate);
+  if (appointmentDateObj < today) {
+    alert("Please set an appointment for today or a future date.");
+    return;
+  }
+
+ 
+
+  //var doctorId = "ngZS5vhfzVqDnLPy1Lg0"; // Replace this with the doctor's ID
+  //var doctorId = "v2IBNjJsQzPSsZsBOFZy";
+  var doctorId = "GHiavmlpqT9hIkgmxhzz";
 
   // Ensure that `doctorId` is not null
   if (doctorId) {
@@ -177,6 +212,9 @@
           patientId: patientId, // Store the patient's ID for reference
         }).then(() => {
           console.log("Doctor document written with ID: ", patientDocRef.id);
+
+          // Send email confirmation using Mailgun SMTP
+          sendEmailConfirmation(patientUser.email, appointmentDate, appointmentTime);
         }).catch((doctorError) => {
           console.error("Error adding doctor document: ", doctorError);
         });
@@ -201,6 +239,129 @@
   }
 }
 
+// Function to send email confirmation using Mailgun SMTP
+function sendEmailConfirmation(email, appointmentDate, appointmentTime) {
+  // Replace these with your Mailgun API key and domain
+  var apiKey = "735d0a5962bdc885f3f5dd6db902806c-8c9e82ec-f953af02";
+  var domain = "sandbox368c242eca99491dbcc8dee09c93edd9.mailgun.org";
+
+  // Set up Mailgun API endpoint
+  var mailgunEndpoint = `https://api.mailgun.net/v3/${domain}/messages`;
+
+  // Set up Mailgun API request headers
+  var headers = {
+    Authorization: `Basic ${btoa(`api:${apiKey}`)}`,
+    "Content-Type": "application/x-www-form-urlencoded",
+  };
+
+  // Set up Mailgun API request data
+  var data = new URLSearchParams();
+  data.append("from", "MedicalSuite <noreply@medicalSuite.com>");
+  data.append("to", email);
+  data.append("subject", "Appointment Confirmation");
+  data.append("text", `Your appointment on ${appointmentDate} at ${appointmentTime} is confirmed.`);
+
+  // Make the Mailgun API request
+  axios.post(mailgunEndpoint, data, { headers: headers })
+    .then((response) => {
+      console.log("Email sent successfully:", response.data);
+    })
+    .catch((error) => {
+      console.error("Error sending email:", error.response.data);
+    });
+}
+
+ // Function to display appointments for the logged-in patient
+ function displayMyAppointments(patientId) {
+    var myAppointmentsTable = document.getElementById("myAppointmentsTable");
+
+    // Clear existing rows
+    myAppointmentsTable.innerHTML = "";
+
+    // Get a reference to the patient's appointments subcollection
+    var appointmentsRef = db.collection("patients").doc(patientId).collection("appointments");
+
+    // Fetch and display appointments
+    appointmentsRef.get().then((querySnapshot) => {
+      querySnapshot.forEach((appointmentDoc) => {
+        var appointment = appointmentDoc.data();
+        var doctorId = appointment.doctorId;
+
+        // Fetch doctor details
+        db.collection("doctors").doc(doctorId).get().then((doctorDoc) => {
+          if (doctorDoc.exists) {
+            var doctor = doctorDoc.data();
+
+            // Create a table row for each appointment
+            var row = myAppointmentsTable.insertRow();
+            row.innerHTML = `
+              <td>${doctor.doctorName} ${doctor.doctorSurname}</td>
+              <td>${appointment.appointmentDate}</td>
+              <td>${appointment.appointmentTime}</td>
+            `;
+          }
+        });
+      });
+    });
+  }
+
+  // Function to display all appointments for the logged-in patient
+  function displayPatientName(patientId) {
+    var patientName = document.getElementById("name");
+
+    // Get a reference to the patient document
+    var patientRef = db.collection("patients").doc(patientId);
+
+    // Fetch the patient document
+    patientRef.get().then((doc) => {
+      if (doc.exists) {
+        var patient = doc.data();
+        patientName.innerHTML = patient.name; // Corrected variable name
+      } else {
+        // doc.data() will be undefined in this case
+        console.error("Patient not found.");
+      }
+    }).catch((error) => {
+      console.error("Error fetching patient: ", error);
+    });
+  }
+
+   // Check if the user is logged in or not
+   firebase.auth().onAuthStateChanged((user) => {
+    if (user) {
+      // Patient is logged in
+      var patientId = user.uid;
+      displayMyAppointments(patientId);
+      displayPatientName(patientId);
+    } else {
+      // Patient is not logged in
+      console.log("No user is signed in.");
+    }
+  });
+
+  displayPatientAppointments();
+  displayDoctors();
+
+  // Function to display the patient's name
+function displayPatientName(patientId) {
+  var patientName = document.getElementById("patientName");
+
+  // Get a reference to the patient document
+  var patientRef = db.collection("patients").doc(patientId);
+
+  // Fetch the patient document
+  patientRef.get().then((doc) => {
+    if (doc.exists) {
+      var patient = doc.data();
+      name.innerHTML = patient.name;
+    } else {
+      // doc.data() will be undefined in this case
+      console.error("Patient not found.");
+    }
+  }).catch((error) => {
+    console.error("Error fetching patient: ", error);
+  });
+}
 
 </script>
 
@@ -210,18 +371,24 @@
     event.preventDefault(); // Prevent the default link behavior
 
     // Add debug statements
-  console.log("Logout link clicked");
+    console.log("Logout link clicked");
 
-// Send a request to your server to log the user out (if needed)
-// Make sure this part is functioning correctly
-
-// Redirect the user to the login page or homepage after logout
-window.location.href = "/index.html"; // Homepage
-
-// Add a debug statement to check if the redirection code is executed
-console.log("Redirecting to index.html");
-});
+    // Sign out the user
+    firebase.auth().signOut().then(function() {
+      // Sign-out successful.
+      // Redirect the user to the login page or homepage after logout
+      window.location.href = "/index.html"; // Homepage
+      // Add a debug statement to check if the redirection code is executed
+      console.log("Redirecting to index.html");
+    }).catch(function(error) {
+      // An error happened.
+      console.error("Error during logout:", error);
+    });
+  });
 </script>
+
+
+
 <!-- Bootstrap JavaScript -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>

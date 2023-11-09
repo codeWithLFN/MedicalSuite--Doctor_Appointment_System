@@ -1,7 +1,52 @@
-/* Add some basic styling */
+/* General Styles */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: lightcoral;
+    color: #495057;
+}
+
+/* Navigation Bar Styles */
+.navbar {
+    background-color: #007bff;
+    color: white;
+    padding: 1rem;
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+}
+
+.navbar-toggler-icon {
+    border: 1px solid white;
+}
+
+.nav-link {
+    color: gray !important;
+}
+
+/* Hero Section Styles */
+.jumbotron {
+    background-color: #007bff;
+    color: #343a40;
+    padding: 4rem;
+    border-radius: 0;
+}
+
+/* About Us Section Styles */
+#about-us {
+    background-color: orange;
+    padding: 4rem 0;
+}
+
+/* Animated Showcase of Doctors Styles */
+#doctors {
+    background-color: #f8f9fa;
+    padding: 4rem 0;
+}
+
 .doctor-card {
     display: flex;
-    justify-content: space-around; /* Adjust as needed */
+    justify-content: space-around;
     align-items: center;
 }
 
@@ -9,22 +54,63 @@
     text-align: center;
 }
 
-/* Style the doctor images */
 .doctor-image {
-    width: 200px; /* Adjust the width as needed */
+    width: 200px;
     height: auto;
-    border-radius: 8px; /* Add rounded corners if desired */
+    border-radius: 8px;
     transition: transform 0.3s ease-in-out;
 }
 
-/* Apply a hover effect */
 .doctor-image:hover {
     cursor: pointer;
     transform: scale(1.1);
 }
 
-/* Style the doctor captions */
 .doctor-caption {
     margin-top: 5px;
     font-weight: bold;
+}
+
+/* Modal Styles */
+.modal-content {
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.modal-header {
+    background-color: #007bff;
+    color: white;
+    border-bottom: none;
+}
+
+.modal-footer {
+    border-top: none;
+}
+
+/* Contact Us Section Styles */
+#contact-us {
+    background-color: #ffffff;
+    padding: 4rem 0;
+}
+
+/* Footer Styles */
+footer {
+    background-color: #343a40;
+    color: white;
+    padding: 1rem 0;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .jumbotron {
+        padding: 2rem;
+    }
+
+    .navbar-brand {
+        font-size: 1.2rem;
+    }
+
+    .navbar-toggler-icon {
+        margin-top: 3px;
+    }
 }

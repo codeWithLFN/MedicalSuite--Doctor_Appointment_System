@@ -4,8 +4,10 @@
     <title>Doctor Login</title>
     <!-- Add Bootstrap CSS and JavaScript links -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/Doctor/style.css">
+
 </head>
-<body>
+<body class="body">
     <div class="container mt-5">
         <h1 class="text-center">Doctor Login</h1>
         <form id="login-form">
@@ -29,7 +31,7 @@
     <!-- Initialize Firebase -->
     <script>
         var firebaseConfig = {
-          apiKey: "AIzaSyBVmFA1iK5MSKLIhf3ACo6E0meUeRbPCgs",
+            apiKey: "AIzaSyBVmFA1iK5MSKLIhf3ACo6E0meUeRbPCgs",
             authDomain: "medicalsuite-99e48.firebaseapp.com",
             projectId: "medicalsuite-99e48",
             storageBucket: "medicalsuite-99e48.appspot.com",
@@ -37,38 +39,38 @@
             appId: "1:679686285511:web:be7e727760a15a61a9f6e2"
         };
         firebase.initializeApp(firebaseConfig);
-
-        // Get a reference to the Firebase Authentication service
-var auth = firebase.auth();
-
-// Add an event listener to the login form
-document.getElementById('login-form').addEventListener('submit', function(event) {
-    event.preventDefault(); // Prevent the form from submitting
-
-    // Get the doctor's email and password
-    var doctorEmail = document.getElementById('doctorEmail').value;
-    var doctorPassword = document.getElementById('doctorPassword').value;
-
-    // Authenticate the doctor
-    auth.signInWithEmailAndPassword(doctorEmail, doctorPassword)
-        .then(function(userCredential) {
-            var user = userCredential.user;
-            
-            if (user) {
-                var doctorId = user.uid; // Get the authenticated doctor's UID
-
-                // Redirect to the doctor's dashboard
-                window.location.href = '/doctor/dashboard.html';
-            } else {
-                // Handle authentication errors
-                console.log('Email or password is incorrect');
-            }
-        })
-        .catch(function(error) {
-            // Handle authentication errors
-            console.log('Authentication error:', error);
+    
+        // Get a reference to the Firebase Authentication and Firestore services
+        var auth = firebase.auth();
+        var firestore = firebase.firestore();
+    
+        // Add an event listener to the login form
+        document.getElementById('login-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the form from submitting
+    
+            // Get the doctor's email and password
+            var doctorEmail = document.getElementById('doctorEmail').value;
+            var doctorPassword = document.getElementById('doctorPassword').value;
+    
+            // Check doctor credentials in Firestore
+            firestore.collection("doctors").where("doctorEmail", "==", doctorEmail).where("doctorPassword","==",doctorPassword ).get()
+                .then(function(querySnapshot) {
+                
+                    if (querySnapshot.docs.length === 1) {
+                                // Redirect to the doctor's dashboard
+                                window.location.href = '/doctor/dashboard.html';
+                            } else {
+                                // Incorrect password
+                                console.log('Incorrect password');
+                            };
+                })
+                .catch(function(error) {
+                    // Handle errors
+                    console.log('Error fetching doctor data:', error);
+                });
         });
-});
+    
+    </script>
 
     </script>
 
