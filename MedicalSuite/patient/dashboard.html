@@ -9,7 +9,7 @@
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="/patient/dashboard.html">Medical Suite</a>
+  <a class="navbar-brand" href="#">medicalSuite</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -19,10 +19,10 @@
         <a class="nav-link" href="#">Dashboard</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/patient/appointment.html">Appointments</a>
+        <a class="nav-link" href="#">Appointments</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" id="logout-link" href="#">Logout</a>
+        <a class="nav-link" href="#">Logout</a>
       </li>
     </ul>
   </div>
@@ -129,9 +129,6 @@
     });
   });
 
-  
-
-
   // Function to show the doctor's schedule
   function showSchedule(doctorId) {
     var doctorSchedule = document.getElementById("doctorSchedule");
@@ -148,13 +145,14 @@
   }
 
   // Function to set an appointment
-  function setAppointment() {
-    var appointmentDate = document.getElementById("appointmentDate").value;
-    var appointmentTime = document.getElementById("appointmentTime").value;
+  function setAppointment(doctorId) {
+  var appointmentDate = document.getElementById("appointmentDate").value;
+  var appointmentTime = document.getElementById("appointmentTime").value;
 
-    // Get the selected doctor's ID from the button
-    var doctorId = document.getElementById("appointmentModal").getAttribute("data-doctor-id");
+  var doctorId = "ngZS5vhfzVqDnLPy1Lg0"; // Replace this with the doctor's ID
 
+  // Ensure that `doctorId` is not null
+  if (doctorId) {
     // Get the currently authenticated patient's UID
     var patientUser = firebase.auth().currentUser;
 
@@ -164,23 +162,21 @@
       // Perform appointment setting logic here
       // Save the appointment details under the patient's collection in Firestore
 
-      
-     
       db.collection("patients").doc(patientId).collection("appointments").add({
         appointmentDate: appointmentDate,
         appointmentTime: appointmentTime,
         doctorId: doctorId, // Store the doctor's ID for reference
-        
       }).then((patientDocRef) => {
         console.log("Patient document written with ID: ", patientDocRef.id);
+        alert("Appointment set successfully!");
 
-        // Save the same appointment details under the doctor's collection
-        db.collection("doctors").doc(doctorId).collection("appointments").add({
+        // Save the same appointment details under the doctor's collection using the patient's ID that has reference to the doctor's ID
+        db.collection("doctors").doc(doctorId).collection("appointments").doc(patientDocRef.id).set({
           appointmentDate: appointmentDate,
           appointmentTime: appointmentTime,
           patientId: patientId, // Store the patient's ID for reference
-        }).then((doctorDocRef) => {
-          console.log("Doctor document written with ID: ", doctorDocRef.id);
+        }).then(() => {
+          console.log("Doctor document written with ID: ", patientDocRef.id);
         }).catch((doctorError) => {
           console.error("Error adding doctor document: ", doctorError);
         });
@@ -198,8 +194,12 @@
     } else {
       // Handle the case where the user is not authenticated or not logged in as a patient
       console.error("Patient is not authenticated.");
+      alert("You must be logged in as a patient to set an appointment.");
     }
+  } else {
+    console.error("Doctor ID is null. Please check your data-doctor-id attribute.");
   }
+}
 
 
 </script>
@@ -207,25 +207,5 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-<!--This code is for the logout -->
-<script>
-  document.getElementById("logout-link").addEventListener("click", function(event) {
-    event.preventDefault(); // Prevent the default link behavior
-
-    // Add debug statements
-  console.log("Logout link clicked");
-
-// Send a request to your server to log the user out (if needed)
-// Make sure this part is functioning correctly
-
-// Redirect the user to the login page or homepage after logout
-window.location.href = "/index.html"; // Homepage
-
-// Add a debug statement to check if the redirection code is executed
-console.log("Redirecting to index.html");
-});
-</script>
-
 </body>
 </html>

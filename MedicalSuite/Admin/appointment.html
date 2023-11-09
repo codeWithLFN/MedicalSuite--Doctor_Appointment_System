@@ -44,6 +44,7 @@
         <th scope="col">Date</th>
         <th scope="col">Time</th>
         <th scope="col">Doctor</th>
+        <th scope="col">Actions</th>
       </tr>
     </thead>
     <tbody>
@@ -51,7 +52,6 @@
     </tbody>
   </table>
 
-  <!-- Edit Appointment Modal -->
   <!-- Edit Appointment Modal -->
 <div class="modal fade" id="editAppointmentModal" tabindex="-1" role="dialog" aria-labelledby="editAppointmentModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -109,7 +109,7 @@
         $("#editAppointmentDoctor").val(appointment.doctorId);
       });
     });
-  
+
     // Save appointment changes
     $("#saveAppointmentChanges").click(function() {
       var date = $("#editAppointmentDate").val();
@@ -291,6 +291,50 @@
     });
 });
     }
+
+    // Function to delete an appointment
+    // Function to delete an appointment
+$(document).on("click", ".delete-appointment", function() {
+  var appointmentId = $(this).data("appointment-id");
+  var patientId = "YOUR_PATIENT_ID"; // Replace with the actual patient's ID
+
+  // Get a reference to the patient's appointments subcollection
+  var appointmentsRef = firebase.firestore().collection("patients").doc(patientId).collection("appointments");
+
+  // Confirm deletion with a confirmation dialog
+  Swal.fire({
+    title: 'Are you sure?',
+    text: "You won't be able to revert this!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, delete it!'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // Delete the appointment
+      appointmentsRef.doc(appointmentId).delete().then(function() {
+        // Remove the corresponding table row from the UI
+        $("#appointmentRow_" + appointmentId).remove();
+
+        Swal.fire({
+          icon: 'success',
+          title: 'Appointment deleted successfully!',
+          showConfirmButton: false,
+          timer: 1500
+        });
+      }).catch(function(error) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Something went wrong! Please try again.',
+          footer: "<a href='#'>Why do I have this issue?</a>"
+        });
+      });
+    }
+  });
+});
+
 
     // Call the function to display appointments for all patients
     displayAppointmentsForAllPatients();

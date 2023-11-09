@@ -46,31 +46,22 @@
   <main role="main">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
       <h1 class="h2">Dashboard</h1>
-      <div class="btn-toolbar mb-2 mb-md-0">
-        <div class="btn-group mr-2">
-          <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
-          <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
-        </div>
-        <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
-          This week
-        </button>
-      </div>
     </div>
     <!-- Sample Content -->
     <div class="row">
       <div class="col-md-6">
         <div class="card">
           <div class="card-body">
-            <h5 class="card-title">Card Title 1</h5>
-            <p class="card-text">Sample content for Card 1.</p>
+            <h5 class="card-title">Patients</h5>
+            <p class="card-text" id="patients-total"></p>
           </div>
         </div>
       </div>
       <div class="col-md-6">
         <div class="card">
           <div class="card-body">
-            <h5 class="card-title">Card Title 2</h5>
-            <p class="card-text">Sample content for Card 2.</p>
+            <h5 class="card-title">Appointments</h5>
+            <p class="card-text" id="Appointments-total"></p>
           </div>
         </div>
       </div>
@@ -98,6 +89,16 @@
 
     // Get a reference to the Firebase Authentication service
     var auth = firebase.auth();
+
+    // view totoal number of patients and appointments
+    var db = firebase.firestore();
+    db.collection("patients").get().then((querySnapshot) => {
+      document.getElementById("patients-total").innerHTML = querySnapshot.size;
+    });
+    db.collection("patients").doc(patientId).collection("appointments").get().then((querySnapshot) => {
+      document.getElementById("Appointments-total").innerHTML = querySnapshot.size;
+    });
+
 
     // Add an event listener to the logout button
     document.getElementById('logoutButton').addEventListener('click', function() {

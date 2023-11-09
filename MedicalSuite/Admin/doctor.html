@@ -87,27 +87,27 @@
                         </div>
                         <div class="form-group">
                             <label>Specialty</label><br>
-                            <div class="form-check">
+                            <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="checkbox" id="specialty1" value="Optometrists">
                                 <label class="form-check-label" for="specialty1">Optometrists</label>
                             </div>
-                            <div class="form-check">
+                            <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="checkbox" id="specialty2" value="Gynaecologist">
                                 <label class="form-check-label" for="specialty2">Gynaecologist</label>
                             </div>
-                            <div class="form-check">
+                            <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="checkbox" id="specialty3" value="Orthodontics">
                                 <label class="form-check-label" for="specialty3">Orthodontics(Dentistry)</label>
                             </div>
-                            <div class="form-check">
+                            <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="checkbox" id="specialty4" value="Family medicine">
                                 <label class="form-check-label" for="specialty4">Family medicine</label>
                             </div>
-                            <div class="form-check">
+                            <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="checkbox" id="specialty5" value="Dermatologists">
                                 <label class="form-check-label" for="specialty5">Dermatologists</label>
                             </div>
-                            <div class="form-check">
+                            <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="checkbox" id="specialty6" value="Cardiologists">
                                 <label class="form-check-label" for="specialty6">Cardiologists</label>
                             </div>
@@ -160,6 +160,107 @@
             </div>
         </div>
     </div>
+
+    <!-- Edit Doctor Modal -->
+    <div class="modal fade" id="editDoctorModal" tabindex="-1" role="dialog" aria-labelledby="editDoctorModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editDoctorModalLabel">Edit Doctor</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="editDoctorForm">
+                        <div class="form-group">
+                            <label for="editDoctorId">Doctor ID</label>
+                            <input type="text" class="form-control" id="editDoctorId" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="editDoctorName">Name</label>
+                            <input type="text" class="form-control" id="editDoctorName">
+                        </div>
+                        <div class="form-group">
+                            <label for="editDoctorSurname">Surname</label>
+                            <input type="text" class="form-control" id="editDoctorSurname">
+                        </div>
+                        <div class="form-group">
+                            <label for="editSpecialty">Specialty</label><br>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="editSpecialty1" value="Optometrists">
+                                <label class="form-check-label" for="editSpecialty1">Optometrists</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="editSpecialty2" value="Gynaecologist">
+                                <label class="form-check-label" for="editSpecialty2">Gynaecologist</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="editSpecialty3" value="Orthodontics">
+                                <label class="form-check-label" for="editSpecialty3">Orthodontics(Dentistry)</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="editSpecialty4" value="Family medicine">
+                                <label class="form-check-label" for="editSpecialty4">Family medicine</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="editSpecialty5" value="Dermatologists">
+                                <label class="form-check-label" for="editSpecialty5">Dermatologists</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="editSpecialty6" value="Cardiologists">
+                                <label class="form-check-label" for="editSpecialty6">Cardiologists</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="editDoctorAvailableDays">Available Days</label><br>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="editMonday">
+                                <label class="form-check-label" for="editMonday">Monday</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="editTuesday">
+                                <label class="form-check-label" for="editTuesday">Tuesday</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="editWednesday">
+                                <label class="form-check-label" for="editWednesday">Wednesday</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="editThursday">
+                                <label class="form-check-label" for="editThursday">Thursday</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="editFriday">
+                                <label class="form-check-label" for="editFriday">Friday</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="editSaturday">
+                                <label class="form-check-label" for="editSaturday">Saturday</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="editSunday">
+                                <label class="form-check-label" for="editSunday">Sunday</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="editDoctorEmail">Email</label>
+                            <input type="email" class="form-control" id="editDoctorEmail" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editDoctorPassword">Password</label>
+                            <input type="password" class="form-control" id="editDoctorPassword" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="saveEditDoctorButton" data-dismiss="modal">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
       <!-- Add Firebase JavaScript SDK -->
       <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
@@ -216,10 +317,24 @@
 
             // Retrieve the selected specialties
             var doctorSpecialty = [];
-            var specialtyCheckboxes = document.querySelectorAll('input[name="specialty"]:checked');
-            specialtyCheckboxes.forEach(function(checkbox) {
-                doctorSpecialty.push(checkbox.value);
-            });
+            if (document.getElementById("specialty1").checked) {
+                doctorSpecialty.push("Optometrists");
+            }
+            if (document.getElementById("specialty2").checked) {
+                doctorSpecialty.push("Gynaecologist");
+            }
+            if (document.getElementById("specialty3").checked) {
+                doctorSpecialty.push("Orthodontics");
+            }
+            if (document.getElementById("specialty4").checked) {
+                doctorSpecialty.push("Family medicine");
+            }
+            if (document.getElementById("specialty5").checked) {
+                doctorSpecialty.push("Dermatologists");
+            }
+            if (document.getElementById("specialty6").checked) {
+                doctorSpecialty.push("Cardiologists");
+            }
 
             // Create a new document in the "doctors" collection in Firestore with the retrieved values
             db.collection("doctors").add({
@@ -242,6 +357,79 @@
             });
         });
 
+        // Add event listener to the "Save changes" button on the edit modal
+        document.getElementById("saveEditDoctorButton").addEventListener("click", function() {
+                // Retrieve the values of the input fields in the form
+                var doctorId = document.getElementById("editDoctorId").value;
+                var doctorName = document.getElementById("editDoctorName").value;
+                var doctorSurname = document.getElementById("editDoctorSurname").value;
+                var doctorAvailableDays = [];
+                if (document.getElementById("editMonday").checked) {
+                    doctorAvailableDays.push("Monday");
+                }
+                if (document.getElementById("editTuesday").checked) {
+                    doctorAvailableDays.push("Tuesday");
+                }
+                if (document.getElementById("editWednesday").checked) {
+                    doctorAvailableDays.push("Wednesday");
+                }
+                if (document.getElementById("editThursday").checked) {
+                    doctorAvailableDays.push("Thursday");
+                }
+                if (document.getElementById("editFriday").checked) {
+                    doctorAvailableDays.push("Friday");
+                }
+                if (document.getElementById("editSaturday").checked) {
+                    doctorAvailableDays.push("Saturday");
+                }
+                if (document.getElementById("editSunday").checked) {
+                    doctorAvailableDays.push("Sunday");
+                }
+                var doctorEmail = document.getElementById("editDoctorEmail").value;
+                var doctorPassword = document.getElementById("editDoctorPassword").value;
+
+                // Retrieve the selected specialties
+                var doctorSpecialty = [];
+                if (document.getElementById("editSpecialty1").checked) {
+                    doctorSpecialty.push("Optometrists");
+                }
+                if (document.getElementById("editSpecialty2").checked) {
+                    doctorSpecialty.push("Gynaecologist");
+                }
+                if (document.getElementById("editSpecialty3").checked) {
+                    doctorSpecialty.push("Orthodontics");
+                }
+                if (document.getElementById("editSpecialty4").checked) {
+                    doctorSpecialty.push("Family medicine");
+                }
+                if (document.getElementById("editSpecialty5").checked) {
+                    doctorSpecialty.push("Dermatologists");
+                }
+                if (document.getElementById("editSpecialty6").checked) {
+                    doctorSpecialty.push("Cardiologists");
+                }
+
+                // Update the document corresponding to the doctor ID with the new values
+                db.collection("doctors").doc(doctorId).update({
+                doctorName: doctorName,
+                doctorSurname: doctorSurname,
+                doctorSpecialty: doctorSpecialty,
+                doctorAvailableDays: doctorAvailableDays,
+                doctorEmail: doctorEmail,
+                doctorPassword: doctorPassword
+            })
+                .then(function() {
+                    // After the document is successfully updated, close the modal and display a success message to the user
+                    $('#editDoctorModal').modal('hide');
+                    alert("Doctor updated successfully!");
+                })
+                .catch(function(error) {
+                    console.error("Error updating doctor: ", error);
+                });
+        });
+
+
+
         // Function to delete a doctor by document ID
         function deleteDoctor(doctorId) {
             if (confirm("Are you sure you want to delete this doctor?")) {
@@ -258,7 +446,7 @@
                         console.error("Error deleting doctor: ", error);
                     });
             }
-        }
+        }   
 
         // Retrieve the list of doctors from Firestore and display them in the table
         db.collection("doctors").get().then(function(querySnapshot) {
@@ -272,11 +460,53 @@
                     "<td>" + data.doctorAvailableDays.join(", ") + "</td>" +
                     "<td>" + data.doctorEmail + "</td>" +
                     "<td>" + data.doctorPassword + "</td>" +
+                    "<td><button class='btn btn-primary' data-toggle='modal' data-target='#editDoctorModal' onclick='editDoctor(\"" + doc.id + "\")'>Edit</button></td>" +
                     "<td><button class='btn btn-danger' onclick='deleteDoctor(\"" + doc.id + "\")'>Delete</button></td>" +
                     "</tr>";
                 document.getElementById("doctorsTableBody").innerHTML += row;
             });
         });
+
+        // Function to edit a doctor by document ID
+        function editDoctor(doctorId){
+            db.collection("doctors").doc(doctorId).get()
+                .then(function(doc) {
+                    if (doc.exists) {
+                        var data = doc.data();
+                        document.getElementById("editDoctorId").value = data.doctorId;
+                        document.getElementById("editDoctorName").value = data.doctorName;
+                        document.getElementById("editDoctorSurname").value = data.doctorSurname;
+
+                        // Check the specialty checkboxes based on the retrieved data
+                        document.getElementById("editSpecialty1").checked = data.doctorSpecialty.includes("Optometrists");
+                        document.getElementById("editSpecialty2").checked = data.doctorSpecialty.includes("Gynaecologist");
+                        document.getElementById("editSpecialty3").checked = data.doctorSpecialty.includes("Orthodontics");
+                        document.getElementById("editSpecialty4").checked = data.doctorSpecialty.includes("Family medicine");
+                        document.getElementById("editSpecialty5").checked = data.doctorSpecialty.includes("Dermatologists");
+                        document.getElementById("editSpecialty6").checked = data.doctorSpecialty.includes("Cardiologists");
+
+                        
+
+                        // Check the day checkboxes based on the retrieved data
+                        document.getElementById("editMonday").checked = data.doctorAvailableDays.includes("Monday");
+                        document.getElementById("editTuesday").checked = data.doctorAvailableDays.includes("Tuesday");
+                        document.getElementById("editWednesday").checked = data.doctorAvailableDays.includes("Wednesday");
+                        document.getElementById("editThursday").checked = data.doctorAvailableDays.includes("Thursday");
+                        document.getElementById("editFriday").checked = data.doctorAvailableDays.includes("Friday");
+                        document.getElementById("editSaturday").checked = data.doctorAvailableDays.includes("Saturday");
+                        document.getElementById("editSunday").checked = data.doctorAvailableDays.includes("Sunday");
+
+                        document.getElementById("editDoctorEmail").value = data.doctorEmail;
+                        document.getElementById("editDoctorPassword").value = data.doctorPassword;
+
+                    }
+                })
+                .catch(function(error) {
+                    console.error("Error getting doctor data: ", error);
+                });
+        }
+
+
     </script>
 
     <!-- Popper JS -->

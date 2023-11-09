@@ -58,9 +58,11 @@
                     if (querySnapshot.docs.length === 1) {
                         // User authenticated successfully (found in Firestore)
                         window.location.href = '/patient/dashboard.html';
+                        alert('Login successful');
                     } else {
                         // Authentication failed (user not found or invalid credentials)
                         console.log('Authentication failed');
+                        alert('Check your email and password and try again');
                     }
                 })
                 .catch(function(error) {
