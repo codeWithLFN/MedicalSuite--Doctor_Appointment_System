@@ -12,7 +12,7 @@
 <body>
   <!-- Navigation Bar -->
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">MedicalSuite</a>
+    <a class="navbar-brand" href="/Admin/dashboard.html">Medical Suite</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -22,13 +22,13 @@
           <a class="nav-link" href="#">Patients<span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Appointments</a>
+          <a class="nav-link" href="/Admin/appointment.html">Appointments</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="/Admin/doctor.html">Doctors</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Reviews</a>
+            <a class="nav-link" id="logout-link"  href="#">Logout</a>
           </li>
       </ul>
     </div>
@@ -302,5 +302,24 @@
     // Display patients on page load
     displayPatients();
   </script>
+
+  <!--This code is for the logout -->
+<script>
+  document.getElementById("logout-link").addEventListener("click", function(event) {
+    event.preventDefault(); // Prevent the default link behavior
+
+    // Add debug statements
+  console.log("Logout link clicked");
+
+// Send a request to your server to log the user out (if needed)
+// Make sure this part is functioning correctly
+
+// Redirect the user to the login page or homepage after logout
+window.location.href = "/index.html"; // Homepage
+
+// Add a debug statement to check if the redirection code is executed
+console.log("Redirecting to index.html");
+});
+</script>
 </body>
 </html>
