@@ -1,53 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Patient Registration</title>
-    <!-- Add Bootstrap CSS and JavaScript links -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
-    <div class="container mt-5">
-        <h1 class="text-center">Patient Registration</h1>
-        <form id="register-form">
-            <div class="form-group">
-                <label for="name">First Name:</label>
-                <input type="text" class="form-control" id="name" name="name">
-            </div>
-            <div class="form-group">
-                <label for "surname">Last Name:</label>
-                <input type="text" class="form-control" id="surname" name="surname">
-            </div>
-            <div class="form-group">
-                <label for="phoneNumber">Phone Number:</label>
-                <input type="tel" class="form-control" id="phoneNumber" name="phoneNumber">
-            </div>
-            <div class="form-group">
-                <label for="email">Email:</label>
-                <input type="email" class="form-control" id="email" name="email">
-            </div>
-            <div class="form-group">
-                <label for="password">Password:</label>
-                <input type="password" class="form-control" id="password" name="password">
-            </div>
-            <div class="form-group">
-                <label for="confirmPassword">Confirm Password:</label>
-                <input type="password" class="form-control" id="confirmPassword" name="confirmPassword">
-            </div>
-            <button type="submit" class="btn btn-primary">Register</button>
-        </form>
-        <p class="mt-3 text-center">Already have an account? <a href="/patient/login.html">Click here to login</a></p>
-    </div>
 
-    <!-- Include your actual Firebase configuration -->
-    <script src="/firebase/firebase-config.js"></script>
-    
-    <!-- Add Firebase JavaScript SDK -->
-    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-firestore.js"></script>
-
-    <!-- Initialize Firebase -->
-    <script>
         // Include your actual Firebase configuration (the config file is on the firebase folder)
         var firebaseConfig = {
             apiKey: "AIzaSyBVmFA1iK5MSKLIhf3ACo6E0meUeRbPCgs",
@@ -113,11 +64,3 @@
         alert("Error creating user account: " + error.message);
       });
     })
-    </script>
-
-    <!-- Add Bootstrap JavaScript link (if needed) -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
-</html>

@@ -1,3 +1,8 @@
+<!-- Include auth.js at the top of each HTML page -->
+<script src="/auth.js"></script>
+<script src="/patient/login.html"></script>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,7 +13,7 @@
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light">
   <a class="navbar-brand" href="/patient/dashboard.html">Medical Suite</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -28,15 +33,76 @@
   </div>
 </nav>
 
-<div class="container">
-  <h1>Welcome, Patient!</h1>
-  <hr>
-  <h2>Available Doctors</h2>
-  <div class="row" id="doctorsGrid">
-    <!-- Doctors will be dynamically added here -->
-  </div>
-</div>
+<style>
+  .navbar {
+    background-color: #ffb700; /* Blue background */
+  }
 
+  .container {
+    text-align: center;
+  }
+
+  .navbar-light .navbar-toggler-icon {
+    background-color: #ffffff; /* White color for the toggler icon */
+  }
+
+  .navbar-light .navbar-nav .nav-link {
+    color: #ffffff; /* White text color for nav links */
+  }
+
+  .navbar-light .navbar-nav .nav-item:hover .nav-link {
+    background-color: #ffb700; /* Darker blue on hover */
+    color: #ffffff; /* Text color on hover */
+  }
+
+  h1 {
+    color: #e7e7e7; /* Blue text color for h2 */
+    background-color: #ffb700; /* Grey background inside h2 */
+    padding: 10px; /* Add padding for better visual appeal */
+  }
+
+  h2 {
+    color: #f5f5f5; /* Blue text color for h2 */
+    background-color: #ffb700; /* Grey background inside h2 */
+    padding: 10px; /* Add padding for better visual appeal */
+  }
+
+  body {
+  /* Set a background color */
+  background-color: #f2f2f2; /* Replace with your desired color code */
+
+  /* Set a background image */
+  background-image: url('/img/vanishing.png'); /* Replace 'your-image.jpg' with the path to your image */
+  background-size: cover; /* This property ensures the background image covers the entire viewport */
+  background-repeat: no-repeat; /* This property ensures the background image is not repeated */
+}
+</style>
+
+<div class="container" text="center">
+  <br>
+  <h1>Welcome To Medical Suite</h1>
+  <hr>
+  <div class="container">
+    <h2>Available Doctors</h2>
+    <div class="row" id="doctorsGrid">
+      <!-- Doctors will be dynamically added here -->
+    </div>
+  
+    <br>
+    <br>
+    <h2>Upcoming Appointments</h2>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Time</th>
+        </tr>
+      </thead>
+      <tbody id="appointmentsTableBody">
+        <!-- Appointments will be dynamically added here -->
+      </tbody>
+    </table>
+  </div>
 <!-- Modal for Doctor Schedule -->
 <div class="modal fade" id="scheduleModal" tabindex="-1" role="dialog" aria-labelledby="scheduleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -123,14 +189,10 @@
         </div>
       </div>
     </div>
-  </div>
-  `;
+    `;
       document.getElementById("doctorsGrid").appendChild(doctorDiv);
     });
   });
-
-  
-
 
   // Function to show the doctor's schedule
   function showSchedule(doctorId) {
@@ -147,6 +209,39 @@
     });
   }
 
+  function displayPatientAppointments() {
+  var patientUser = firebase.auth().currentUser;
+
+  if (patientUser) {
+    var patientId = patientUser.uid;
+
+    // Fetch patient's appointments from Firestore
+    db.collection("patients").doc(patientId).collection("appointments").get().then((querySnapshot) => {
+      var appointmentsList = document.getElementById("appointmentsList");
+      appointmentsList.innerHTML = ""; // Clear previous entries
+
+      if (querySnapshot.size > 0) {
+        querySnapshot.forEach((appointment) => {
+          var listItem = document.createElement("li");
+          listItem.className = "list-group-item";
+          listItem.textContent = `Date: ${appointment.data().appointmentDate}, Time: ${appointment.data().appointmentTime}`;
+          appointmentsList.appendChild(listItem);
+        });
+      } else {
+        var listItem = document.createElement("li");
+        listItem.className = "list-group-item";
+        listItem.textContent = "No upcoming appointments.";
+        appointmentsList.appendChild(listItem);
+      }
+    }).catch((error) => {
+      console.error("Error fetching patient's appointments: ", error);
+    });
+  }
+}
+
+// Call the function to display patient's appointments
+displayPatientAppointments();
+
   // Function to set an appointment
   function setAppointment() {
     var appointmentDate = document.getElementById("appointmentDate").value;
@@ -159,49 +254,54 @@
     var patientUser = firebase.auth().currentUser;
 
     if (patientUser) {
-      var patientId = patientUser.uid; // Use the authenticated patient's UID as the patient's ID
+    var patientId = patientUser.uid; // Use the authenticated patient's UID as the patient's ID
 
-      // Perform appointment setting logic here
-      // Save the appointment details under the patient's collection in Firestore
+    // Perform appointment setting logic here
+    // Save the appointment details under the patient's collection in Firestore
+    db.collection("patients").doc(patientId).collection("appointments").add({
+      appointmentDate: appointmentDate,
+      appointmentTime: appointmentTime,
+      doctorId: doctorId, // Store the doctor's ID for reference
+    }).then((patientDocRef) => {
+      console.log("Patient document written with ID: ", patientDocRef.id);
 
-      
-     
-      db.collection("patients").doc(patientId).collection("appointments").add({
+      // Save the same appointment details under the doctor's collection
+      db.collection("doctors").doc(doctorId).collection("appointments").add({
         appointmentDate: appointmentDate,
         appointmentTime: appointmentTime,
-        doctorId: doctorId, // Store the doctor's ID for reference
-        
-      }).then((patientDocRef) => {
-        console.log("Patient document written with ID: ", patientDocRef.id);
+        patientId: patientId, // Store the patient's ID for reference
+      }).then((doctorDocRef) => {
+        console.log("Doctor document written with ID: ", doctorDocRef.id);
 
-        // Save the same appointment details under the doctor's collection
-        db.collection("doctors").doc(doctorId).collection("appointments").add({
+        // Save the appointment details in the "appointments" collection
+        db.collection("appointments").add({
           appointmentDate: appointmentDate,
           appointmentTime: appointmentTime,
-          patientId: patientId, // Store the patient's ID for reference
-        }).then((doctorDocRef) => {
-          console.log("Doctor document written with ID: ", doctorDocRef.id);
-        }).catch((doctorError) => {
-          console.error("Error adding doctor document: ", doctorError);
+          doctorId: doctorId,
+          patientId: patientId,
+        }).then((appointmentDocRef) => {
+          console.log("Appointment document written with ID: ", appointmentDocRef.id);
+        }).catch((appointmentError) => {
+          console.error("Error adding appointment document: ", appointmentError);
         });
-
-      }).catch((patientError) => {
-        console.error("Error adding patient document: ", patientError);
+      }).catch((doctorError) => {
+        console.error("Error adding doctor document: ", doctorError);
       });
+    }).catch((patientError) => {
+      console.error("Error adding patient document: ", patientError);
+    });
 
-      // Clear the input fields
-      document.getElementById("appointmentDate").value = "";
-      document.getElementById("appointmentTime").value = "";
+    // Clear the input fields
+    document.getElementById("appointmentDate").value = "";
+    document.getElementById("appointmentTime").value = "";
 
-      // Close the modal
-      $("#appointmentModal").modal("hide");
-    } else {
-      // Handle the case where the user is not authenticated or not logged in as a patient
-      console.error("Patient is not authenticated.");
-    }
+    // Close the modal
+    $("#appointmentModal").modal("hide");
+  } else {
+    // Handle the case where the user is not authenticated or not logged in as a patient
+    console.error("Patient is not authenticated.");
   }
-
-
+}
 </script>
 <!-- Bootstrap JavaScript -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
@@ -214,18 +314,20 @@
     event.preventDefault(); // Prevent the default link behavior
 
     // Add debug statements
-  console.log("Logout link clicked");
+    console.log("Logout link clicked");
 
-// Send a request to your server to log the user out (if needed)
-// Make sure this part is functioning correctly
+    // Send a request to your server to log the user out (if needed)
+    // Make sure this part is functioning correctly
 
-// Redirect the user to the login page or homepage after logout
-window.location.href = "/index.html"; // Homepage
+    // Redirect the user to the login page or homepage after logout
+    window.location.href = "/index.html"; // Homepage
 
-// Add a debug statement to check if the redirection code is executed
-console.log("Redirecting to index.html");
-});
+    // Add a debug statement to check if the redirection code is executed
+    console.log("Redirecting to index.html");
+  });
 </script>
+
+
 
 </body>
 </html>

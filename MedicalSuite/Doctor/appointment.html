@@ -1,25 +1,24 @@
 <!-- Include auth.js at the top of each HTML page -->
 <script src="/auth.js"></script>
-<script src="/register.js"></script>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Appointments</title>
+  <title>Doctor Appointments</title>
   <!-- Bootstrap CSS -->
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="">Medical Suite</a>
+  <a class="navbar-brand" href="#">Medical Suite</a>
   <ul class="navbar-nav ml-auto">
     <li class="nav-item">
-      <a class="nav-link" href="/patient/dashboard.html">Dashboard</a>
+      <a class="nav-link" href="/">Dashboard</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="/patient/appointment.html">Appointments</a>
+      <a class="nav-link" href="#">Appointments</a>
     </li>
     <li class="nav-item">
       <a class="nav-link" id="logout-link" href="#">Logout</a>
@@ -35,6 +34,7 @@
       <tr>
         <th>Appointment Date</th>
         <th>Appointment Time</th>
+        
       </tr>
     </thead>
     <tbody id="appointmentsTable">
@@ -53,49 +53,53 @@
 <script>
   // Firebase configuration
   var firebaseConfig = {
-            apiKey: "AIzaSyBVmFA1iK5MSKLIhf3ACo6E0meUeRbPCgs",
-            authDomain: "medicalsuite-99e48.firebaseapp.com",
-            projectId: "medicalsuite-99e48",
-            storageBucket: "medicalsuite-99e48.appspot.com",
-            messagingSenderId: "679686285511",
-            appId: "1:679686285511:web:be7e727760a15a61a9f6e2"
-        };
+    apiKey: "AIzaSyBVmFA1iK5MSKLIhf3ACo6E0meUeRbPCgs",
+    authDomain: "medicalsuite-99e48.firebaseapp.com",
+    projectId: "medicalsuite-99e48",
+    storageBucket: "medicalsuite-99e48.appspot.com",
+    messagingSenderId: "679686285511",
+    appId: "1:679686285511:web:be7e727760a15a61a9f6e2"
+  };
+
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
 
-  // Function to display appointments for the logged-in user
-
-  
-  function displayAppointmentsForUser() {
-    var patientUser = firebase.auth().currentUser;
-
-    if (patientUser) {
-      var patientId = patientUser.uid; // Use the authenticated patient's UID as the patient's ID
-      var appointmentsRef = firebase.firestore().collection("patients").doc(patientId).collection("appointments");
-
-      appointmentsRef.get().then(function (appointmentsQuerySnapshot) {
-        var tableRows = "";
-        appointmentsQuerySnapshot.forEach(function (appointmentDoc) {
-          var appointment = appointmentDoc.data();
-          tableRows += "<tr>";
-          // Add appointment details to the table
-          tableRows += "<td>" + appointment.appointmentDate + "</td>";
-          tableRows += "<td>" + appointment.appointmentTime + "</td>";
-          tableRows += "<td>";
-          tableRows += "</td>";
-          tableRows += "</tr>";
-        });
-
-        // Replace the existing content of the appointments table
-        $("#appointmentsTable").html(tableRows);
-        console.log("Appointments displayed for user:", patientId);
-      });
-    }
+  // Function to get the user ID from auth.js
+  function getDoctorId() {
+    // Replace "YOUR_DOCTOR_ID" with the actual doctor's ID
+    return "ngZS5vhfzVqDnLPy1Lg0";
   }
 
-  // Call the function to display appointments for the logged-in user
-  displayAppointmentsForUser();
+  // Function to display appointments for the logged-in doctor
+  function displayAppointmentsForDoctor() {
+    var doctorId = getDoctorId(); // Get the doctor's ID from the function
+    var appointmentsRef = firebase.firestore().collection("doctors").doc(doctorId).collection("appointments");
+
+    appointmentsRef.get().then(function (appointmentsQuerySnapshot) {
+      var tableRows = "";
+      appointmentsQuerySnapshot.forEach(function (appointmentDoc) {
+        var appointment = appointmentDoc.data();
+        tableRows += "<tr>";
+        // Add appointment details to the table
+        tableRows += "<td>" + appointment.appointmentDate + "</td>";
+        tableRows += "<td>" + appointment.appointmentTime + "</td>";
+        tableRows += "<td>";
+
+        tableRows += "</td>";
+        tableRows += "</tr>";
+      });
+
+      // Replace the existing content of the appointments table
+      $("#appointmentsTable").html(tableRows);
+      console.log("Appointments displayed for doctor:", doctorId);
+    });
+  }
+
+  // Call the function to display appointments for the logged-in doctor
+  displayAppointmentsForDoctor();
 </script>
+
+<script></script>
 
 <!-- jQuery and Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
