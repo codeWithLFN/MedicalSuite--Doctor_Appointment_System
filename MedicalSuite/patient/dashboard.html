@@ -22,7 +22,7 @@
         <a class="nav-link" href="/patient/appointment.html">Appointments</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Logout</a>
+        <a class="nav-link" id="logout-link" href="#">Logout</a>
       </li>
     </ul>
   </div>
@@ -202,6 +202,25 @@
 }
 
 
+</script>
+
+<!--This code is for the logout -->
+<script>
+  document.getElementById("logout-link").addEventListener("click", function(event) {
+    event.preventDefault(); // Prevent the default link behavior
+
+    // Add debug statements
+  console.log("Logout link clicked");
+
+// Send a request to your server to log the user out (if needed)
+// Make sure this part is functioning correctly
+
+// Redirect the user to the login page or homepage after logout
+window.location.href = "/index.html"; // Homepage
+
+// Add a debug statement to check if the redirection code is executed
+console.log("Redirecting to index.html");
+});
 </script>
 <!-- Bootstrap JavaScript -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
