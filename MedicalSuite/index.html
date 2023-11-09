@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>medicalSuite - Your Health, Our Priority</title>
     <link rel="stylesheet" href="css/style.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
     <!-- Navigation Bar -->
@@ -56,19 +56,19 @@
             <!-- Replace 'path/to/doctor/image.jpg' with the actual path to your doctor images -->
             <div class="doctor-item">
                 <a href="#" data-toggle="modal" data-target="#doctorInfoModal" data-doctor-name="Dr Max Smith">
-                    <img class="doctor-image" src="/img/dr_max_smith.jpg" alt="Dr Max Smith">
+                    <img class="doctor-image" src="img/dr_max_smith.jpg" alt="Dr Max Smith">
                     <div class="doctor-caption">Dr Max Smith</div>
                 </a>
             </div>
             <div class="doctor-item">
                 <a href="#" data-toggle="modal" data-target="#doctorInfoModal" data-doctor-name="Dr Thabiso Mathews">
-                    <img class="doctor-image" src="/img/dr_thabiso_mathews.jpg" alt="Dr Thabiso Mathews">
+                    <img class="doctor-image" src="img/dr_thabiso_mathews.jpg" alt="Dr Thabiso Mathews">
                     <div class="doctor-caption">Dr Thabiso Mathews</div>
                 </a>
             </div>
             <div class="doctor-item">
                 <a href="#" data-toggle="modal" data-target="#doctorInfoModal" data-doctor-name="Dr Linda Khuzwayo">
-                    <img class="doctor-image" src="/img/dr_linda_khuzwayo.jpg" alt="Dr Linda Khuzwayo">
+                    <img class="doctor-image" src="img/dr_linda_khuzwayo.jpg" alt="Dr Linda Khuzwayo">
                     <div class="doctor-caption">Dr Linda Khuzwayo</div>
                 </a>
             </div>
@@ -95,6 +95,32 @@
         </div>
     </div>
 </div>
+
+
+
+    <!-- Contact Us Section -->
+    <section id="contact-us" class="py-5">
+        <div class="container text-center">
+            <h2 class="text-center">Contact Us</h2>
+            <p class="text-left">Phone: +27 (0)12 123 4567<br>Email: contact@medicalsuite.co.za<br>Address: 123 Main Street, Pretoria, Gauteng, South Africa</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-light py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    &copy; 2023 medicalSuite. All rights reserved.
+                </div>
+                <div class="col-md-6 text-right">
+                    <a href="Doctor/login.html" class="btn btn-link text-light">Doctor Login</a>
+                    <a href="Admin/login.html" class="btn btn-link text-light">Admin Login</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
 
 <script>
     // Define an object with unique information for each doctor
@@ -125,71 +151,10 @@
     });
 </script>
 
-<!-- Bootstrap JavaScript -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-    <!-- Contact Us Section -->
-    <section id="contact-us" class="py-5">
-        <div class="container text-center">
-            <h2 class="text-center">Contact Us</h2>
-            <p class="text-left">Phone: +27 (0)12 123 4567<br>Email: contact@medicalsuite.co.za<br>Address: 123 Main Street, Pretoria, Gauteng, South Africa</p>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="bg-dark text-light py-4">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    &copy; 2023 medicalSuite. All rights reserved.
-                </div>
-                <div class="col-md-6 text-right">
-                    <a href="Doctor/login.html" class="btn btn-link text-light">Doctor Login</a>
-                    <a href="Admin/login.html" class="btn btn-link text-light">Admin Login</a>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <style>
-        /* Add some basic styling */
-        .doctor-card {
-            display: flex;
-            justify-content: space-around; /* Adjust as needed */
-            align-items: center;
-        }
-    
-        .doctor-item {
-            text-align: center;
-        }
-    
-        /* Style the doctor images */
-        .doctor-image {
-            width: 200px; /* Adjust the width as needed */
-            height: auto;
-            border-radius: 8px; /* Add rounded corners if desired */
-            transition: transform 0.3s ease-in-out;
-        }
-    
-        /* Apply a hover effect */
-        .doctor-image:hover {
-            cursor: pointer;
-            transform: scale(1.1);
-        }
-    
-        /* Style the doctor captions */
-        .doctor-caption {
-            margin-top: 5px;
-            font-weight: bold;
-        }
-    </style>
-
     <!-- Link to Bootstrap JS and jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="js/script.js"></script>
 
 

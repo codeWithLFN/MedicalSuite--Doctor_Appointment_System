@@ -1,0 +1,30 @@
+/* Add some basic styling */
+.doctor-card {
+    display: flex;
+    justify-content: space-around; /* Adjust as needed */
+    align-items: center;
+}
+
+.doctor-item {
+    text-align: center;
+}
+
+/* Style the doctor images */
+.doctor-image {
+    width: 200px; /* Adjust the width as needed */
+    height: auto;
+    border-radius: 8px; /* Add rounded corners if desired */
+    transition: transform 0.3s ease-in-out;
+}
+
+/* Apply a hover effect */
+.doctor-image:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+}
+
+/* Style the doctor captions */
+.doctor-caption {
+    margin-top: 5px;
+    font-weight: bold;
+}
