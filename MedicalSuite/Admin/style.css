@@ -1,0 +1,113 @@
+/* style.css */
+
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa; /* Body background color */
+}
+
+.navbar {
+    background-color: #3498db;
+    border-bottom: 1px solid #ddd; /* Add a border to separate the navbar from the content */
+}
+
+.navbar-brand {
+    color: #555 !important;
+    font-weight: bold;
+}
+
+.navbar-toggler-icon {
+    background-color: #555;
+}
+
+.nav-link {
+    color: #555 !important;
+}
+
+.nav-link:hover {
+    color: #555 !important;
+}
+
+main {
+    padding: 20px;
+}
+
+.h2 {
+    color: #3498db;
+}
+
+.card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px; /* Add space between cards */
+}
+
+.card-title {
+    color: #3498db;
+}
+
+.card-text {
+    color: #555;
+}
+
+/* Add your custom styles here */
+
+/* Add Patient Button Style */
+.btn-primary {
+    background-color: #3498db;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #2980b9;
+}
+
+/* Table Style */
+.table {
+    background-color: #ffffff;
+}
+
+/* Modal Style */
+.modal-content {
+    background-color: #ffffff;
+    border-radius: 10px;
+}
+
+/* Form Style */
+.form-control {
+    border: 1px solid #ced4da;
+}
+
+/* Button Style inside Modals */
+.btn-secondary,
+.btn-primary {
+    border: none;
+}
+
+.btn-secondary:hover,
+.btn-primary:hover {
+    opacity: 0.9;
+}
+
+/* Button Style in Table Rows */
+.btn-danger,
+.btn-primary {
+    padding: 5px 10px;
+    font-size: 14px;
+}
+
+/* Adjusting Margin of the Logout Link */
+#logout-link {
+    margin-right: 15px;
+}
+
+/* Optional: Add a subtle animation on hover for buttons */
+.btn {
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    cursor: pointer;
+}

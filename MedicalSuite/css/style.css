@@ -1,15 +1,18 @@
 /* General Styles */
 body {
     font-family: 'Roboto', sans-serif;
-    background-color: lightcoral;
+    background-color: #f8f9fa; /* Light background color */
     color: #495057;
+    margin: 0;
+    padding: 0;
 }
 
 /* Navigation Bar Styles */
 .navbar {
-    background-color: #007bff;
-    color: white;
+    background-color: #17a2b8; /* Aqua background color */
+    color: #495057;
     padding: 1rem;
+    border-bottom: 2px solid #138496; /* Darker border bottom for separation */
 }
 
 .navbar-brand {
@@ -17,30 +20,30 @@ body {
 }
 
 .navbar-toggler-icon {
-    border: 1px solid white;
+    border: 1px solid #495057;
 }
 
 .nav-link {
-    color: gray !important;
+    color: #495057 !important; /* Light text color for better contrast */
 }
 
 /* Hero Section Styles */
 .jumbotron {
-    background-color: #007bff;
-    color: #343a40;
+    background-color: #17a2b8; /* Aqua background color */
+    color: #17a2b8; /* Light text color for better contrast */
     padding: 4rem;
     border-radius: 0;
 }
 
 /* About Us Section Styles */
 #about-us {
-    background-color: orange;
+    background-color: #ffc107; /* Yellow background color */
     padding: 4rem 0;
 }
 
 /* Animated Showcase of Doctors Styles */
 #doctors {
-    background-color: #f8f9fa;
+    background-color: #ffffff; /* White background color */
     padding: 4rem 0;
 }
 
@@ -78,7 +81,7 @@ body {
 }
 
 .modal-header {
-    background-color: #007bff;
+    background-color: #17a2b8; /* Aqua background color */
     color: white;
     border-bottom: none;
 }
@@ -89,8 +92,23 @@ body {
 
 /* Contact Us Section Styles */
 #contact-us {
-    background-color: #ffffff;
+    background-color: #28a745; /* Green background color */
     padding: 4rem 0;
+}
+
+.contact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-gap: 20px;
+    text-align: center;
+}
+
+.contact-item {
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #ffffff; /* White background color */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    color: #495057;
 }
 
 /* Footer Styles */

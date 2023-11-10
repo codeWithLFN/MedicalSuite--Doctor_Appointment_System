@@ -4,17 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>medicalSuite - Your Health, Our Priority</title>
+    <link rel="icon" href="/img/MedicalSuite.jpg" type="image/png">
     <link rel="stylesheet" href="css/style.css">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
     <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="/index.html">Medical Suite</a>
+        <!-- Logo -->
+        <a class="navbar-brand" href="index.html">
+            <img src="img/MedicalSuite.jpg" alt="medicalSuite" width="50" height="50">
+        </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <!-- must be separated it should be on the right side -->
+        <!-- must be separated; it should be on the right side -->
         <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
@@ -30,79 +34,95 @@
     </div>
     </nav>
 
-    <!--Hero Section-->
+    <!-- Hero Section -->
     <div class="jumbotron text-center">
         <h1 class="display-4">Your Health, Our Priority</h1>
         <p class="lead">Book an appointment with our experienced doctors today.</p>
         <a href="patient/login.html" class="btn btn-primary btn-lg">Book Now</a>
     </div>
 
-    <!--About Us Section-->
+    <!-- About Us Section -->
     <section id="about-us" class="py-5">
         <div class="container">
             <h2 class="text-center">About Us</h2>
             <p>Our application allows patients to easily schedule appointments with doctors. We offer a wide range of medical
-                specializations and our doctors are highly qualified and experienced. Emergency bookings are given priority and
-                our review system allows patients to leave feedback for their doctors.
+                specializations, and our doctors are highly qualified and experienced. Emergency bookings are given priority.
             </p>
         </div>
     </section>
 
-<!-- Animated Showcase of Doctors -->
-<section id="doctors" class="py-5">
-    <div class="container">
-        <h2 class="text-center">Meet Our Doctors</h2>
-        <div class="doctor-card">
-            <!-- Replace 'path/to/doctor/image.jpg' with the actual path to your doctor images -->
-            <div class="doctor-item">
-                <a href="#" data-toggle="modal" data-target="#doctorInfoModal" data-doctor-name="Dr Max Smith">
-                    <img class="doctor-image" src="img/dr_max_smith.jpg" alt="Dr Max Smith">
-                    <div class="doctor-caption">Dr Max Smith</div>
-                </a>
+    <!-- Animated Showcase of Doctors -->
+    <section id="doctors" class="py-5">
+        <div class="container">
+            <h2 class="text-center">Meet Our Doctors</h2>
+            <div class="doctor-card">
+                <!-- Replace 'path/to/doctor/image.jpg' with the actual path to your doctor images -->
+                <div class="doctor-item">
+                    <a href="#" data-toggle="modal" data-target="#doctorInfoModal" data-doctor-name="Dr Max Smith">
+                        <img class="doctor-image" src="img/dr_max_smith.jpg" alt="Dr Max Smith">
+                        <div class="doctor-caption">Dr Max Smith</div>
+                    </a>
+                </div>
+                <div class="doctor-item">
+                    <a href="#" data-toggle="modal" data-target="#doctorInfoModal" data-doctor-name="Dr Thabiso Mathews">
+                        <img class="doctor-image" src="img/dr_thabiso_mathews.jpg" alt="Dr Thabiso Mathews">
+                        <div class="doctor-caption">Dr Thabiso Mathews</div>
+                    </a>
+                </div>
+                <div class="doctor-item">
+                    <a href="#" data-toggle="modal" data-target="#doctorInfoModal" data-doctor-name="Dr Linda Khuzwayo">
+                        <img class="doctor-image" src="img/dr_linda_khuzwayo.jpg" alt="Dr Linda Khuzwayo">
+                        <div class="doctor-caption">Dr Linda Khuzwayo</div>
+                    </a>
+                </div>
             </div>
-            <div class="doctor-item">
-                <a href="#" data-toggle="modal" data-target="#doctorInfoModal" data-doctor-name="Dr Thabiso Mathews">
-                    <img class="doctor-image" src="img/dr_thabiso_mathews.jpg" alt="Dr Thabiso Mathews">
-                    <div class="doctor-caption">Dr Thabiso Mathews</div>
-                </a>
-            </div>
-            <div class="doctor-item">
-                <a href="#" data-toggle="modal" data-target="#doctorInfoModal" data-doctor-name="Dr Linda Khuzwayo">
-                    <img class="doctor-image" src="img/dr_linda_khuzwayo.jpg" alt="Dr Linda Khuzwayo">
-                    <div class="doctor-caption">Dr Linda Khuzwayo</div>
-                </a>
+        </div>
+    </section>
+
+    <!-- Modal for Doctor Information -->
+    <div class="modal fade" id="doctorInfoModal" tabindex="-1" role="dialog" aria-labelledby="doctorInfoModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="doctorInfoModalLabel">Doctor Information</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="individualDoctorInfo">
+                    <!-- Doctor-specific information will be displayed here -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
             </div>
         </div>
     </div>
-</section>
-
-<!-- Modal for Doctor Information -->
-<div class="modal fade" id="doctorInfoModal" tabindex="-1" role="dialog" aria-labelledby="doctorInfoModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="doctorInfoModalLabel">Doctor Information</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body" id="individualDoctorInfo">
-                <!-- Doctor-specific information will be displayed here -->
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
 
     <!-- Contact Us Section -->
     <section id="contact-us" class="py-5">
-        <div class="container text-center">
+        <div class="container">
             <h2 class="text-center">Contact Us</h2>
-            <p class="text-left">Phone: +27 (0)12 123 4567<br>Email: contact@medicalsuite.co.za<br>Address: 123 Main Street, Pretoria, Gauteng, South Africa</p>
+            <div class="row justify-content-center">
+                <div class="col-md-4">
+                    <div class="contact-item">
+                        <h4>Phone</h4>
+                        <p>+27 (0)12 793 0082</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="contact-item">
+                        <h4>Email</h4>
+                        <p>contact@medicalsuite.co.za</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="contact-item">
+                        <h4>Address</h4>
+                        <p>Shop 79A, Soshanguve Crossing, Aubrey Matlakala St, Soshanguve, 0152',South Africa</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -121,42 +141,40 @@
         </div>
     </footer>
 
+    <script>
+        // Define an object with unique information for each doctor
+        var doctorsInfo = {
+            'Dr Max Smith': 'Dr. Max, a graduate of the University of Johannesburg, is a versatile healthcare professional specializing in optometry, gynecology, and orthodontics (dentistry). Their broad skill set enables them to address diverse health issues, offering comprehensive and personalized care. Dr. Max is committed to ensuring optimal health for patients in these specialized fields.',
+            'Dr Thabiso Mathews': 'Information about Dr Thabiso Mathews.',
+            'Dr Linda Khuzwayo': 'Information about Dr Linda Khuzwayo.'
+        };
 
-<script>
-    // Define an object with unique information for each doctor
-    var doctorsInfo = {
-        'Dr Max Smith': 'Dr. Max, a graduate of the University of Johannesburg, is a versatile healthcare professional specializing in optometry, gynecology, and orthodontics (dentistry). Their broad skill set enables them to address diverse health issues, offering comprehensive and personalized care. Dr. Max is committed to ensuring optimal health for patients in these specialized fields.',
-        'Dr Thabiso Mathews': 'Information about Dr Thabiso Mathews.',
-        'Dr Linda Khuzwayo': 'Information about Dr Linda Khuzwayo.'
-    };
+        // Function to show doctor information in the modal
+        function showDoctorInfoModal(doctorName) {
+            var individualDoctorInfo = document.getElementById("individualDoctorInfo");
+            individualDoctorInfo.innerHTML = "Loading doctor information...";
 
-    // Function to show doctor information in the modal
-    function showDoctorInfoModal(doctorName) {
-        var individualDoctorInfo = document.getElementById("individualDoctorInfo");
-        individualDoctorInfo.innerHTML = "Loading doctor information...";
+            // Fetch and display unique information for each doctor
+            var doctorInfo = doctorsInfo[doctorName];
 
-        // Fetch and display unique information for each doctor
-        var doctorInfo = doctorsInfo[doctorName];
+            // Update the modal content
+            individualDoctorInfo.innerHTML = doctorInfo;
+        }
 
-        // Update the modal content
-        individualDoctorInfo.innerHTML = doctorInfo;
-    }
-
-    // Attach a click event listener to each doctor item
-    document.querySelectorAll('.doctor-item a').forEach(function (doctorLink) {
-        doctorLink.addEventListener('click', function (event) {
-            var doctorName = this.getAttribute('data-doctor-name');
-            showDoctorInfoModal(doctorName);
+        // Attach a click event listener to each doctor item
+        document.querySelectorAll('.doctor-item a').forEach(function (doctorLink) {
+            doctorLink.addEventListener('click', function (event) {
+                var doctorName = this.getAttribute('data-doctor-name');
+                showDoctorInfoModal(doctorName);
+            });
         });
-    });
-</script>
+    </script>
 
     <!-- Link to Bootstrap JS and jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="js/script.js"></script>
-
 
 </body>
 </html>

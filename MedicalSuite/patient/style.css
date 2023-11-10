@@ -1,8 +1,24 @@
-  body {
-    font-family: 'Helvetica Neue', sans-serif;
-    background-color: #f8f9fa;
-    color: #495057;
-  }
+body {
+  font-family: 'Helvetica Neue', sans-serif;
+  background-color: #f8f9fa;
+  color: #495057;
+}
+
+/* Add background image for the login page */
+body.login-bg {
+  background-image: url('/img/admin_login.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+/* Add background image for the register page */
+body.register-bg {
+  background-image: url('/img/MedicalSuite.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+
 
   .navbar {
     background-color: #007bff;

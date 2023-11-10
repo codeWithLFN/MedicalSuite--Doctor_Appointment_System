@@ -4,17 +4,21 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Appointments</title>
+  <link rel="icon" href="/img/MedicalSuite.jpg" type="image/png">
   <!-- Bootstrap CSS -->
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/Admin/style.css">
 </head>
 <body>
   <!-- Navigation Bar -->
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="/Admin/dashboard.html">Medical Suite</a>
+    <a class="navbar-brand" href="/Admin/dashboard.html">
+      <img src="img/MedicalSuite.jpg" alt="medicalSuite" width="50" height="50">
+  </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item">
           <a class="nav-link" href="/Admin/patient.html">Patients</a>
@@ -26,7 +30,7 @@
             <a class="nav-link" href="/Admin/doctor.html">Doctors</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Reviews</a>
+          <a class="nav-link" id="logout-link"  href="#">Logout</a>
         </li>
       </ul>
     </div>
@@ -339,5 +343,23 @@ $(document).on("click", ".delete-appointment", function() {
     // Call the function to display appointments for all patients
     displayAppointmentsForAllPatients();
   </script>
+
+<script>
+  document.getElementById("logout-link").addEventListener("click", function(event) {
+    event.preventDefault(); // Prevent the default link behavior
+
+    // Add debug statements
+  console.log("Logout link clicked");
+
+// Send a request to your server to log the user out (if needed)
+// Make sure this part is functioning correctly
+
+// Redirect the user to the login page or homepage after logout
+window.location.href = "/index.html"; // Homepage
+
+// Add a debug statement to check if the redirection code is executed
+console.log("Redirecting to index.html");
+});
+</script>
 </body>
 </html>
