@@ -8,11 +8,12 @@
   <!-- Bootstrap CSS -->
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="/patient/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <a class="navbar-brand" href="/patient/dashboard.html">
-    <img src="img/MedicalSuite.jpg" alt="medicalSuite" width="50" height="50">
+    <img src="/img/MedicalSuite.jpg" alt="medicalSuite" width="50" height="50">
 </a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -30,7 +31,7 @@
 </nav>
 
 <div class="container-dashboard">
-  <h1>Welcome, <span id="name"></span></h1>
+  <h1>Welcome, <span id="patientName"></span></h1>
   <hr>
   <h2>Available Doctors</h2>
   <div class="row" id="doctorsGrid">
@@ -131,21 +132,19 @@
   db.collection("doctors").get().then((querySnapshot) => {
     querySnapshot.forEach((doc) => {
       var doctorDiv = document.createElement("div");
-      doctorDiv.classList.add("col-md-4");
-      doctorDiv.innerHTML = `
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">${doc.data().doctorName} ${doc.data().doctorSurname}</h5>
-            <p class="card-text">Specialty: ${doc.data().doctorSpecialty}</p>
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#scheduleModal" onclick="showSchedule('${doc.id}')">View Schedule</button>
-            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#appointmentModal" data-doctor-id="${doc.id}">Set Appointment</button>
-          </div>
-        </div>
-      </div>
+doctorDiv.classList.add("col-md-4");
+doctorDiv.innerHTML = `
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">${doc.data().doctorName} ${doc.data().doctorSurname}</h5>
+      <p class="card-text">Specialty: ${doc.data().doctorSpecialty}</p>
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#scheduleModal" onclick="showSchedule('${doc.id}')">View Schedule</button>
+      <button type="button" class="btn btn-success" data-toggle="modal" data-target="#appointmentModal" onclick="setAppointment('${doc.id}')">Set Appointment</button>
     </div>
   </div>
-  `;
-      document.getElementById("doctorsGrid").appendChild(doctorDiv);
+`;
+   document.getElementById("doctorsGrid").appendChild(doctorDiv);
+
     });
   });
 
@@ -169,9 +168,10 @@
   var appointmentDate = document.getElementById("appointmentDate").value;
   var appointmentTime = document.getElementById("appointmentTime").value;
 
-  // If appointmentTime is before 10:00 and after 16:00, display an error message
-  if (appointmentTime < "10:00" || appointmentTime > "16:00") {
-    alert("Please set an appointment between 10:00 and 16:00.");
+  // Validate appointment date and time (if needed)
+// If appointmentTime is before 10:00 and after 16:00, display an error message
+  if (appointmentTime < "10:00" || appointmentTime > "17:00") {
+    alert("Please set an appointment between 10:00 and 17:00.");
     return;
   }
 
@@ -183,64 +183,79 @@
     return;
   }
 
- 
 
   var doctorId = "ngZS5vhfzVqDnLPy1Lg0"; // Replace this with the doctor's ID
   //var doctorId = "v2IBNjJsQzPSsZsBOFZy";
   //var doctorId = "GHiavmlpqT9hIkgmxhzz";
 
-  // Ensure that `doctorId` is not null
-  if (doctorId) {
-    // Get the currently authenticated patient's UID
-    var patientUser = firebase.auth().currentUser;
 
-    if (patientUser) {
-      var patientId = patientUser.uid; // Use the authenticated patient's UID as the patient's ID
 
-      // Perform appointment setting logic here
-      // Save the appointment details under the patient's collection in Firestore
+  // Get the current user
+  var user = firebase.auth().currentUser;
 
-      db.collection("patients").doc(patientId).collection("appointments").add({
-        appointmentDate: appointmentDate,
-        appointmentTime: appointmentTime,
-        doctorId: doctorId, // Store the doctor's ID for reference
-      }).then((patientDocRef) => {
-        console.log("Patient document written with ID: ", patientDocRef.id);
-        alert("Appointment set successfully!");
+  if (user) {
+    // Check if the user is identified as a patient
+    db.collection("patients").doc(user.uid).get().then((doc) => {
+      if (doc.exists) {
+        // The user is identified as a patient
+        var patientId = user.uid; // Use the authenticated patient's UID as the patient's ID
 
-        // Save the same appointment details under the doctor's collection using the patient's ID that has reference to the doctor's ID
-        db.collection("doctors").doc(doctorId).collection("appointments").doc(patientDocRef.id).set({
+        // Rest of the appointment setting logic
+        // Save appointment details under the patient's collection in Firestore
+        db.collection("patients").doc(patientId).collection("appointments").add({
           appointmentDate: appointmentDate,
           appointmentTime: appointmentTime,
-          patientId: patientId, // Store the patient's ID for reference
-        }).then(() => {
-          console.log("Doctor document written with ID: ", patientDocRef.id);
-
-          // Send email confirmation using Mailgun SMTP
-          sendEmailConfirmation(patientUser.email, appointmentDate, appointmentTime);
-        }).catch((doctorError) => {
-          console.error("Error adding doctor document: ", doctorError);
+          doctorId: doctorId,
+        })
+        .then((patientDocRef) => {
+          // Save the same appointment details under the doctor's collection using the patient's ID
+          db.collection("doctors").doc(doctorId).collection("appointments").doc(patientDocRef.id).set({
+            appointmentDate: appointmentDate,
+            appointmentTime: appointmentTime,
+            patientId: patientId,
+          })
+          .then(() => {
+            // Send email confirmation
+            sendEmailConfirmation(user.email, appointmentDate, appointmentTime);
+            console.log("Appointment set successfully!");
+            alert("Appointment set successfully!");
+            
+          })
+          .catch((doctorError) => {
+            console.error("Error adding doctor document: ", doctorError);
+          });
+        })
+        .catch((patientError) => {
+          console.error("Error adding patient document: ", patientError);
         });
 
-      }).catch((patientError) => {
-        console.error("Error adding patient document: ", patientError);
-      });
-
-      // Clear the input fields
-      document.getElementById("appointmentDate").value = "";
+        // Clear input fields and close modal (if needed)
+	    document.getElementById("appointmentDate").value = "";
       document.getElementById("appointmentTime").value = "";
 
       // Close the modal
       $("#appointmentModal").modal("hide");
-    } else {
-      // Handle the case where the user is not authenticated or not logged in as a patient
-      console.error("Patient is not authenticated.");
-      alert("You must be logged in as a patient to set an appointment.");
-    }
+
+
+
+      } else {
+        // The user is not identified as a patient
+        console.error("User is not identified as a patient.");
+        alert("You must be logged in as a patient to set an appointment.");
+      }
+    })
+    .catch((error) => {
+      console.error("Error checking user type:", error);
+      alert("Error checking user type. Please try again.");
+    });
+
   } else {
-    console.error("Doctor ID is null. Please check your data-doctor-id attribute.");
+    // User is not logged in
+    console.error("User is not logged in.");
+    alert("You must be logged in to set an appointment.");
   }
 }
+
 
 // Function to send email confirmation using Mailgun SMTP
 function sendEmailConfirmation(email, appointmentDate, appointmentTime) {
@@ -342,7 +357,7 @@ function sendEmailConfirmation(email, appointmentDate, appointmentTime) {
     }
   });
 
-  displayPatientAppointments();
+  displayMyAppointments(patientId);
   displayDoctors();
 
   // Function to display the patient's name
@@ -356,7 +371,7 @@ function displayPatientName(patientId) {
   patientRef.get().then((doc) => {
     if (doc.exists) {
       var patient = doc.data();
-      name.innerHTML = patient.name;
+      patientName.innerHTML = patient.name;
     } else {
       // doc.data() will be undefined in this case
       console.error("Patient not found.");
