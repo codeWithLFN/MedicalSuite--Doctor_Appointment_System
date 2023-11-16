@@ -35,8 +35,13 @@ body {
 
 /* Container styling */
 .container {
-  margin-top: 20px;
+  max-width: 400px;
+  margin: auto;
   padding: 20px;
+  background-color: #ffffff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  margin-top: 50px;
 }
 
 /* Heading styling */
@@ -200,5 +205,44 @@ footer a {
 
 footer a:hover {
   color: #0056b3;
+}
+
+/* Add background image for the login page */
+body.login-bg {
+  background-image: url('/img/admin_login.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+/* Add background image for the register page */
+body.register-bg {
+  background-image: url('/img/MedicalSuite.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+.container-dashboard {
+  margin-top: 20px;
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#doctorsGrid {
+  margin-top: 20px;
+}
+
+.card {
+  margin-bottom: 20px;
+}
+
+.card-title {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.card-text {
+  color: #6c757d;
 }
 

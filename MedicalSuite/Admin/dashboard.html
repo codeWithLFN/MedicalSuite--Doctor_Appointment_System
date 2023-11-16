@@ -14,9 +14,9 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <nav class="navbar navbar-expand-lg">
     <a class="navbar-brand" href="/Admin/dashboard.html">
-      <img src="img/MedicalSuite.jpg" alt="medicalSuite" width="50" height="50">
+      <img src="/img/MedicalSuite.jpg" alt="medicalSuite" width="50" height="50">
   </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -74,12 +74,12 @@
   <!-- Latest compiled JavaScript -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <!-- Add Firebase JavaScript SDK -->
-  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
   <!-- Initialize Firebase -->
   <script>
-    var firebaseConfig = {
+    const firebaseConfig = {
       apiKey: "AIzaSyBVmFA1iK5MSKLIhf3ACo6E0meUeRbPCgs",
       authDomain: "medicalsuite-99e48.firebaseapp.com",
       projectId: "medicalsuite-99e48",
@@ -90,16 +90,15 @@
     firebase.initializeApp(firebaseConfig);
 
     // Get a reference to the Firebase Authentication service
-    var auth = firebase.auth();
+    const auth = firebase.auth();
 
     // view totoal number of patients and appointments
-    var db = firebase.firestore();
+    const db = firebase.firestore();
     db.collection("patients").get().then((querySnapshot) => {
       document.getElementById("patients-total").innerHTML = querySnapshot.size;
     });
-    db.collection("patients").doc(patientId).collection("appointments").get().then((querySnapshot) => {
-      document.getElementById("Appointments-total").innerHTML = querySnapshot.size;
-    });
+    
+    // total number of appointments ,appointment is a subcollection for  patients collection
 
 
     // Add an event listener to the logout button
