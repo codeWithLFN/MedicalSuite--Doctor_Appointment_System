@@ -88,17 +88,18 @@
       appId: "1:679686285511:web:be7e727760a15a61a9f6e2"
     };
     firebase.initializeApp(firebaseConfig);
-
-    // Get a reference to the Firebase Authentication service
     const auth = firebase.auth();
-
-    // view totoal number of patients and appointments
     const db = firebase.firestore();
+
+    // view totoal number of patients 
     db.collection("patients").get().then((querySnapshot) => {
       document.getElementById("patients-total").innerHTML = querySnapshot.size;
     });
     
     // total number of appointments ,appointment is a subcollection for  patients collection
+    db.collectionGroup("appointments").get().then((querySnapshot) => {
+      document.getElementById("Appointments-total").innerHTML = querySnapshot.size;
+    });
 
 
     // Add an event listener to the logout button
