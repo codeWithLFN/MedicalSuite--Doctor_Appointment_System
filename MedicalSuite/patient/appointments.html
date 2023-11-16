@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Appointments</title>
+  <link rel="icon" href="/img/MedicalSuite.jpg" type="image/png">
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/patient/style.css">
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar navbar-expand-lg ">
+    <a class="navbar-brand" href="/patient/dashboard.html">
+      <img src="/img/MedicalSuite.jpg" alt="medicalSuite" width="50" height="50">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link active" href="/patient/appointments.html">Appointments</a>
+        </li>
+        <li class="nav-item ">
+          <a class="nav-link" href="/patient/profile.html">Profile</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="logout" href="#">Logout</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!--Appointments-->
+  <div class="container-dashboard mt-4">
+    <h2>My Appointments</h2>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Doctor</th>
+          <th scope="col">Date</th>
+          <th scope="col">Time</th>
+        </tr>
+      </thead>
+      <tbody id="myAppointmentsTable">
+        <!-- Appointments for the logged-in user will be dynamically added here -->
+      </tbody>
+    </table>
+  </div>
+
+  <!--firebase -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+
+  <!-- Custom JS -->
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyBVmFA1iK5MSKLIhf3ACo6E0meUeRbPCgs",
+      authDomain: "medicalsuite-99e48.firebaseapp.com",
+      projectId: "medicalsuite-99e48",
+      storageBucket: "medicalsuite-99e48.appspot.com",
+      messagingSenderId: "679686285511",
+      appId: "1:679686285511:web:be7e727760a15a61a9f6e2"
+    };
+  
+    const app = firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+  
+    // Wait for Firebase to initialize before executing any code
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        // Fetch appointments for the logged-in user from Firestore
+        const myAppointmentsTable = document.getElementById('myAppointmentsTable');
+  
+        // Clear existing rows
+        myAppointmentsTable.innerHTML = "";
+  
+        // Get a reference to the patient's appointments subcollection
+        const appointmentsRef = db.collection("patients").doc(user.uid).collection("appointments");
+  
+        // Fetch and display appointments
+        appointmentsRef.get().then((querySnapshot) => {
+          querySnapshot.forEach((appointmentDoc) => {
+            const appointment = appointmentDoc.data();
+            const doctorId = appointment.doctorId;
+  
+            // Fetch doctor details
+            db.collection("doctors").doc(doctorId).get().then((doctorDoc) => {
+              if (doctorDoc.exists) {
+                const doctor = doctorDoc.data();
+  
+                // Create a table row for each appointment
+                const row = myAppointmentsTable.insertRow();
+                const cell1 = row.insertCell(0);
+                const cell2 = row.insertCell(1);
+                const cell3 = row.insertCell(2);
+  
+                cell1.textContent = `${doctor.doctorName} ${doctor.doctorSurname}`;
+                cell2.textContent = appointment.appointmentDate;
+                cell3.textContent = appointment.appointmentTime;
+              }
+            });
+          });
+        });
+      }
+    });
+  </script>
+  
+  <!-- Bootstrap JS -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="/js/script.js"></script>
+</body>
+</html>

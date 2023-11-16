@@ -11,24 +11,27 @@
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="/patient/dashboard.html">
-    <img src="/img/MedicalSuite.jpg" alt="medicalSuite" width="50" height="50">
-</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-    <ul class="navbar-nav ml-auto">
-      <li class="nav-item">
-        <a class="nav-link" href="/patient/dashboard.html">Dashboard</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" id="logout-link" href="#">Logout</a>
-      </li>
-    </ul>
-  </div>
-</nav>
+  <nav class="navbar navbar-expand-md">
+    <a class="navbar-brand" href="/patient/dashboard.html">
+      <img src="/img/MedicalSuite.jpg" alt="medicalSuite" width="50" height="50">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/patient/appointments.html">Appointments</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/patient/profile.html">Profile</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="logout" href="#">Logout</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
 
 <div class="container-dashboard">
   <h1>Welcome, <span id="patientName"></span></h1>
@@ -37,22 +40,6 @@
   <div class="row" id="doctorsGrid">
     <!-- Doctors will be dynamically added here -->
   </div>
-</div>
-
-<div class="container-dashboard mt-4">
-  <h2>My Appointments</h2>
-  <table class="table">
-    <thead>
-      <tr>
-        <th scope="col">Doctor</th>
-        <th scope="col">Date</th>
-        <th scope="col">Time</th>
-      </tr>
-    </thead>
-    <tbody id="myAppointmentsTable">
-      <!-- Appointments for the logged-in user will be dynamically added here -->
-    </tbody>
-  </table>
 </div>
 
 <!-- Modal for Doctor Schedule -->
@@ -106,12 +93,12 @@
 </div>
 
 <!-- Add Firebase JavaScript SDK -->
-<script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
 
 <script>
-  var firebaseConfig = {
+  const firebaseConfig = {
     apiKey: "AIzaSyBVmFA1iK5MSKLIhf3ACo6E0meUeRbPCgs",
     authDomain: "medicalsuite-99e48.firebaseapp.com",
     projectId: "medicalsuite-99e48",
@@ -120,42 +107,37 @@
     appId: "1:679686285511:web:be7e727760a15a61a9f6e2"
   };
 
-  // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
-
-  var db = firebase.firestore();
-
-  // Get a reference to the Firebase Auth service
-  var auth = firebase.auth();
+  const auth = firebase.auth();
+  const db = firebase.firestore();
 
   // Fetch and display doctors
   db.collection("doctors").get().then((querySnapshot) => {
     querySnapshot.forEach((doc) => {
-      var doctorDiv = document.createElement("div");
-doctorDiv.classList.add("col-md-4");
-doctorDiv.innerHTML = `
-  <div class="card">
-    <div class="card-body">
-      <h5 class="card-title">${doc.data().doctorName} ${doc.data().doctorSurname}</h5>
-      <p class="card-text">Specialty: ${doc.data().doctorSpecialty}</p>
-      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#scheduleModal" onclick="showSchedule('${doc.id}')">View Schedule</button>
-      <button type="button" class="btn btn-success" data-toggle="modal" data-target="#appointmentModal" onclick="setAppointment('${doc.id}')">Set Appointment</button>
-    </div>
-  </div>
-`;
-   document.getElementById("doctorsGrid").appendChild(doctorDiv);
-
+      const doctorDiv = document.createElement("div");
+      doctorDiv.classList.add("col-md-4");
+      doctorDiv.innerHTML = `
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">${doc.data().doctorName} ${doc.data().doctorSurname}</h5>
+            <p class="card-text">Specialty: ${doc.data().doctorSpecialty}</p>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#scheduleModal" onclick="showSchedule('${doc.id}')">View Schedule</button>
+            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#appointmentModal" onclick="setAppointment('${doc.id}')">Set Appointment</button>
+          </div>
+        </div>
+      `;
+      document.getElementById("doctorsGrid").appendChild(doctorDiv);
     });
   });
 
   // Function to show the doctor's schedule
   function showSchedule(doctorId) {
-    var doctorSchedule = document.getElementById("doctorSchedule");
+    const doctorSchedule = document.getElementById("doctorSchedule");
     doctorSchedule.innerHTML = "Loading schedule...";
 
     db.collection("doctors").doc(doctorId).get().then((doc) => {
       if (doc.exists) {
-        var schedule = doc.data().doctorAvailableDays;
+        const schedule = doc.data().doctorAvailableDays;
         doctorSchedule.innerHTML = "Available Days: " + schedule.join(", ");
       } else {
         doctorSchedule.innerHTML = "Schedule not found.";
@@ -165,176 +147,129 @@ doctorDiv.innerHTML = `
 
   // Function to set an appointment
   function setAppointment(doctorId) {
-  var appointmentDate = document.getElementById("appointmentDate").value;
-  var appointmentTime = document.getElementById("appointmentTime").value;
+    const appointmentDate = document.getElementById("appointmentDate").value;
+    const appointmentTime = document.getElementById("appointmentTime").value;
 
-  // Validate appointment date and time (if needed)
-// If appointmentTime is before 10:00 and after 16:00, display an error message
-  if (appointmentTime < "10:00" || appointmentTime > "17:00") {
-    alert("Please set an appointment between 10:00 and 17:00.");
-    return;
-  }
+    // Validate appointment date and time (if needed)
+    // If appointmentTime is before 10:00 and after 16:00, display an error message
+    if (appointmentTime < "10:00" || appointmentTime > "17:00") {
+      alert("Please set an appointment between 10:00 and 17:00.");
+      return;
+    }
 
-  // If appointmentDate is before today, display an error message
-  var today = new Date();
-  var appointmentDateObj = new Date(appointmentDate);
-  if (appointmentDateObj < today) {
-    alert("Please set an appointment for today or a future date.");
-    return;
-  }
+    // If appointmentDate is before today, display an error message
+    const today = new Date();
+    const appointmentDateObj = new Date(appointmentDate);
+    if (appointmentDateObj < today) {
+      alert("Please set an appointment for today or a future date.");
+      return;
+    }
 
+    // Get the current user
+    const user = firebase.auth().currentUser;
 
-  var doctorId = "ngZS5vhfzVqDnLPy1Lg0"; // Replace this with the doctor's ID
-  //var doctorId = "v2IBNjJsQzPSsZsBOFZy";
-  //var doctorId = "GHiavmlpqT9hIkgmxhzz";
+    if (user) {
+      // Check if the user is identified as a patient
+      db.collection("patients").doc(user.uid).get().then((doc) => {
+        if (doc.exists) {
+          // The user is identified as a patient
+          const patientId = user.uid; // Use the authenticated patient's UID as the patient's ID
 
-
-
-  // Get the current user
-  var user = firebase.auth().currentUser;
-
-  if (user) {
-    // Check if the user is identified as a patient
-    db.collection("patients").doc(user.uid).get().then((doc) => {
-      if (doc.exists) {
-        // The user is identified as a patient
-        var patientId = user.uid; // Use the authenticated patient's UID as the patient's ID
-
-        // Rest of the appointment setting logic
-        // Save appointment details under the patient's collection in Firestore
-        db.collection("patients").doc(patientId).collection("appointments").add({
-          appointmentDate: appointmentDate,
-          appointmentTime: appointmentTime,
-          doctorId: doctorId,
-        })
-        .then((patientDocRef) => {
-          // Save the same appointment details under the doctor's collection using the patient's ID
-          db.collection("doctors").doc(doctorId).collection("appointments").doc(patientDocRef.id).set({
+          // Rest of the appointment setting logic
+          // Save appointment details under the patient's collection in Firestore
+          db.collection("patients").doc(patientId).collection("appointments").add({
             appointmentDate: appointmentDate,
             appointmentTime: appointmentTime,
-            patientId: patientId,
+            doctorId: doctorId,
           })
-          .then(() => {
-            // Send email confirmation
-            sendEmailConfirmation(user.email, appointmentDate, appointmentTime);
-            console.log("Appointment set successfully!");
-            alert("Appointment set successfully!");
-            
-          })
-          .catch((doctorError) => {
-            console.error("Error adding doctor document: ", doctorError);
-          });
-        })
-        .catch((patientError) => {
-          console.error("Error adding patient document: ", patientError);
+            .then((patientDocRef) => {
+              // Save the same appointment details under the doctor's collection using the patient's ID
+              db.collection("doctors").doc(doctorId).collection("appointments").doc(patientDocRef.id).set({
+                appointmentDate: appointmentDate,
+                appointmentTime: appointmentTime,
+                patientId: patientId,
+              })
+                .then(() => {
+                  // Send email confirmation
+                  sendEmailConfirmation(user.email, appointmentDate, appointmentTime);
+                  console.log("Appointment set successfully!");
+                  alert("Appointment set successfully!");
+                })
+                .catch((doctorError) => {
+                  console.error("Error adding doctor document: ", doctorError);
+                });
+            })
+            .catch((patientError) => {
+              console.error("Error adding patient document: ", patientError);
+            });
+
+          // Clear input fields and close modal (if needed)
+          document.getElementById("appointmentDate").value = "";
+          document.getElementById("appointmentTime").value = "";
+
+          // Close the modal
+          $("#appointmentModal").modal("hide");
+        } else {
+          // The user is not identified as a patient
+          console.error("User is not identified as a patient.");
+          alert("You must be logged in as a patient to set an appointment.");
+        }
+      })
+        .catch((error) => {
+          console.error("Error checking user type:", error);
+          alert("Error checking user type. Please try again.");
         });
-
-        // Clear input fields and close modal (if needed)
-	    document.getElementById("appointmentDate").value = "";
-      document.getElementById("appointmentTime").value = "";
-
-      // Close the modal
-      $("#appointmentModal").modal("hide");
-
-
-
-      } else {
-        // The user is not identified as a patient
-        console.error("User is not identified as a patient.");
-        alert("You must be logged in as a patient to set an appointment.");
-      }
-    })
-    .catch((error) => {
-      console.error("Error checking user type:", error);
-      alert("Error checking user type. Please try again.");
-    });
-
-  } else {
-    // User is not logged in
-    console.error("User is not logged in.");
-    alert("You must be logged in to set an appointment.");
+    } else {
+      // User is not logged in
+      console.error("User is not logged in.");
+      alert("You must be logged in to set an appointment.");
+    }
   }
-}
 
+  // Function to send email confirmation using Mailgun SMTP
+  function sendEmailConfirmation(email, appointmentDate, appointmentTime) {
+    // Replace these with your Mailgun API key and domain
+    const apiKey = "your-mailgun-api-key";
+    const domain = "your-mailgun-domain";
 
-// Function to send email confirmation using Mailgun SMTP
-function sendEmailConfirmation(email, appointmentDate, appointmentTime) {
-  // Replace these with your Mailgun API key and domain
-  var apiKey = "735d0a5962bdc885f3f5dd6db902806c-8c9e82ec-f953af02";
-  var domain = "sandbox368c242eca99491dbcc8dee09c93edd9.mailgun.org";
+    // Set up Mailgun API endpoint
+    const mailgunEndpoint = `https://api.mailgun.net/v3/${domain}/messages`;
 
-  // Set up Mailgun API endpoint
-  var mailgunEndpoint = `https://api.mailgun.net/v3/${domain}/messages`;
+    // Set up Mailgun API request headers
+    const headers = {
+      Authorization: `Basic ${btoa(`api:${apiKey}`)}`,
+      "Content-Type": "application/x-www-form-urlencoded",
+    };
 
-  // Set up Mailgun API request headers
-  var headers = {
-    Authorization: `Basic ${btoa(`api:${apiKey}`)}`,
-    "Content-Type": "application/x-www-form-urlencoded",
-  };
+    // Set up Mailgun API request data
+    const data = new URLSearchParams();
+    data.append("from", "MedicalSuite <noreply@medicalSuite.com>");
+    data.append("to", email);
+    data.append("subject", "Appointment Confirmation");
+    data.append("text", `Your appointment on ${appointmentDate} at ${appointmentTime} is confirmed.`);
 
-  // Set up Mailgun API request data
-  var data = new URLSearchParams();
-  data.append("from", "MedicalSuite <noreply@medicalSuite.com>");
-  data.append("to", email);
-  data.append("subject", "Appointment Confirmation");
-  data.append("text", `Your appointment on ${appointmentDate} at ${appointmentTime} is confirmed.`);
-
-  // Make the Mailgun API request
-  axios.post(mailgunEndpoint, data, { headers: headers })
-    .then((response) => {
-      console.log("Email sent successfully:", response.data);
-    })
-    .catch((error) => {
-      console.error("Error sending email:", error.response.data);
-    });
-}
-
- // Function to display appointments for the logged-in patient
- function displayMyAppointments(patientId) {
-    var myAppointmentsTable = document.getElementById("myAppointmentsTable");
-
-    // Clear existing rows
-    myAppointmentsTable.innerHTML = "";
-
-    // Get a reference to the patient's appointments subcollection
-    var appointmentsRef = db.collection("patients").doc(patientId).collection("appointments");
-
-    // Fetch and display appointments
-    appointmentsRef.get().then((querySnapshot) => {
-      querySnapshot.forEach((appointmentDoc) => {
-        var appointment = appointmentDoc.data();
-        var doctorId = appointment.doctorId;
-
-        // Fetch doctor details
-        db.collection("doctors").doc(doctorId).get().then((doctorDoc) => {
-          if (doctorDoc.exists) {
-            var doctor = doctorDoc.data();
-
-            // Create a table row for each appointment
-            var row = myAppointmentsTable.insertRow();
-            row.innerHTML = `
-              <td>${doctor.doctorName} ${doctor.doctorSurname}</td>
-              <td>${appointment.appointmentDate}</td>
-              <td>${appointment.appointmentTime}</td>
-            `;
-          }
-        });
+    // Make the Mailgun API request
+    axios.post(mailgunEndpoint, data, { headers: headers })
+      .then((response) => {
+        console.log("Email sent successfully:", response.data);
+      })
+      .catch((error) => {
+        console.error("Error sending email:", error.response.data);
       });
-    });
   }
 
-  // Function to display all appointments for the logged-in patient
+  // Function to display patient's name
   function displayPatientName(patientId) {
-    var patientName = document.getElementById("name");
+    const patientName = document.getElementById("patientName");
 
     // Get a reference to the patient document
-    var patientRef = db.collection("patients").doc(patientId);
+    const patientRef = db.collection("patients").doc(patientId);
 
     // Fetch the patient document
     patientRef.get().then((doc) => {
       if (doc.exists) {
-        var patient = doc.data();
-        patientName.innerHTML = patient.name; // Corrected variable name
+        const patient = doc.data();
+        patientName.innerHTML = patient.name;
       } else {
         // doc.data() will be undefined in this case
         console.error("Patient not found.");
@@ -344,12 +279,11 @@ function sendEmailConfirmation(email, appointmentDate, appointmentTime) {
     });
   }
 
-   // Check if the user is logged in or not
-   firebase.auth().onAuthStateChanged((user) => {
+  // Check if the user is logged in or not
+  firebase.auth().onAuthStateChanged((user) => {
     if (user) {
       // Patient is logged in
-      var patientId = user.uid;
-      displayMyAppointments(patientId);
+      const patientId = user.uid;
       displayPatientName(patientId);
     } else {
       // Patient is not logged in
@@ -357,47 +291,15 @@ function sendEmailConfirmation(email, appointmentDate, appointmentTime) {
     }
   });
 
-  displayMyAppointments(patientId);
-  displayDoctors();
-
-  // Function to display the patient's name
-function displayPatientName(patientId) {
-  var patientName = document.getElementById("patientName");
-
-  // Get a reference to the patient document
-  var patientRef = db.collection("patients").doc(patientId);
-
-  // Fetch the patient document
-  patientRef.get().then((doc) => {
-    if (doc.exists) {
-      var patient = doc.data();
-      patientName.innerHTML = patient.name;
-    } else {
-      // doc.data() will be undefined in this case
-      console.error("Patient not found.");
-    }
-  }).catch((error) => {
-    console.error("Error fetching patient: ", error);
-  });
-}
-
-</script>
-
-<!--This code is for the logout -->
-<script>
-  document.getElementById("logout-link").addEventListener("click", function(event) {
+  // Event listener for the logout link
+  document.getElementById("logout").addEventListener("click", function(event) {
     event.preventDefault(); // Prevent the default link behavior
-
-    // Add debug statements
-    console.log("Logout link clicked");
 
     // Sign out the user
     firebase.auth().signOut().then(function() {
       // Sign-out successful.
       // Redirect the user to the login page or homepage after logout
       window.location.href = "/index.html"; // Homepage
-      // Add a debug statement to check if the redirection code is executed
-      console.log("Redirecting to index.html");
     }).catch(function(error) {
       // An error happened.
       console.error("Error during logout:", error);

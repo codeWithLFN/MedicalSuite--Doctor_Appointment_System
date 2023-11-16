@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Profile</title>
+  <link rel="icon" href="/img/MedicalSuite.jpg" type="image/png">
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/patient/style.css">
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar navbar-expand-lg">
+    <a class="navbar-brand" href="/patient/dashboard.html">
+      <img src="/img/MedicalSuite.jpg" alt="medicalSuite" width="50" height="50">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/patient/appointments.html">Appointments</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="/patient/profile.html">Profile</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="logout" href="#">Logout</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container mt-5">
+    <h1>Edit Profile</h1>
+    <form id="profile-form">
+      <div class="form-group">
+        <label for="name">Name:</label>
+        <input type="text" class="form-control" id="name">
+      </div>
+      <div class="form-group">
+        <label for="surname">Surname:</label>
+        <input type="text" class="form-control" id="surname">
+      </div>
+      <div class="form-group">
+        <label for="phoneNumber">Phone Number:</label>
+        <input type="text" class="form-control" id="phoneNumber">
+      </div>
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" class="form-control" id="email">
+      </div>
+      <div class="form-group">
+        <label for="password">Password:</label>
+        <div class="input-group">
+          <input type="password" class="form-control" id="password">
+          <div class="input-group-append">
+            <span class="input-group-text" id="password-toggle" onclick="togglePasswordVisibility()">
+              <i class="fa fa-eye" aria-hidden="true"></i>
+            </span>
+          </div>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary">Save Changes</button>
+    </form>
+  </div>
+
+  <!--firebase -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+
+  <!-- Custom JS -->
+  <script>
+    const firebaseConfig = {
+        apiKey: "AIzaSyBVmFA1iK5MSKLIhf3ACo6E0meUeRbPCgs",
+        authDomain: "medicalsuite-99e48.firebaseapp.com",
+        projectId: "medicalsuite-99e48",
+        storageBucket: "medicalsuite-99e48.appspot.com",
+        messagingSenderId: "679686285511",
+        appId: "1:679686285511:web:be7e727760a15a61a9f6e2"
+    };
+  
+    const app = firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+  
+    const profileForm = document.querySelector('form');
+  
+    // Wait for Firebase to initialize before executing any code
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        // Fetch user data from Firestore
+        db.collection('patients').doc(user.uid).get().then((doc) => {
+          if (doc.exists) {
+            // Set input values based on user data
+            profileForm['name'].value = doc.data().name || '';
+            profileForm['surname'].value = doc.data().surname || '';
+            profileForm['phoneNumber'].value = doc.data().phoneNumber || '';
+            profileForm['email'].value = doc.data().email || '';
+            profileForm['password'].value = doc.data().password || '';
+          }
+        }).catch((error) => {
+          console.log(error);
+        });
+      }
+    });
+
+    profileForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+  
+      const name = profileForm['name'].value;
+      const surname = profileForm['surname'].value;
+      const phoneNumber = profileForm['phoneNumber'].value;
+      const email = profileForm['email'].value;
+      const password = profileForm['password'].value;
+  
+      const user = auth.currentUser;
+  
+      if (user) {
+        try {
+          db.collection('patients').doc(user.uid).update({
+            name: name,
+            surname: surname,
+            phoneNumber: phoneNumber,
+            email: email,
+            password: password
+          });
+          alert("Changes saved successfully.");
+        } catch (error) {
+          console.log(error);
+          alert("Error saving changes.");
+        }
+      }
+    });
+
+    // Logout
+    const logout = document.querySelector('#logout');
+
+    logout.addEventListener('click', (e) => {
+      e.preventDefault();
+
+      auth.signOut().then(() => {
+        alert("User signed out successfully.");
+        window.location.href = "/index.html";
+      }).catch((error) => {
+        alert(error.message);
+      });
+    });
+
+    function togglePasswordVisibility() {
+      const passwordInput = document.getElementById('password');
+      const passwordToggle = document.getElementById('password-toggle');
+
+      if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        passwordToggle.innerHTML = '<i class="fa fa-eye-slash" aria-hidden="true"></i>';
+      } else {
+        passwordInput.type = 'password';
+        passwordToggle.innerHTML = '<i class="fa fa-eye" aria-hidden="true"></i>';
+      }
+    }
+  </script>
+
+  <!-- Font Awesome icons -->
+  <script src="https://kit.fontawesome.com/e92a1f631e.js" crossorigin="anonymous"></script>
+
+  <!-- Bootstrap JS -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="/js/script.js"></script>
+</body>
+</html>

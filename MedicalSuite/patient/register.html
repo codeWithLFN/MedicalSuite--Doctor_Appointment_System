@@ -6,7 +6,6 @@
     <!-- Add Bootstrap CSS and JavaScript links -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/patient/style.css">
-
 </head>
 <body class="register-bg">
     <div class="container mt-5">
@@ -17,7 +16,7 @@
                 <input type="text" class="form-control" id="name" name="name">
             </div>
             <div class="form-group">
-                <label for "surname">Last Name:</label>
+                <label for="surname">Last Name:</label>
                 <input type="text" class="form-control" id="surname" name="surname">
             </div>
             <div class="form-group">
@@ -41,18 +40,15 @@
         <p class="mt-3 text-center">Already have an account? <a href="/patient/login.html">Click here to login</a></p>
     </div>
 
-    <!-- Include your actual Firebase configuration -->
-    <script src="/firebase/firebase-config.js"></script>
-    
-    <!-- Add Firebase JavaScript SDK -->
-    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-firestore.js"></script>
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
 
     <!-- Initialize Firebase -->
     <script>
         // Include your actual Firebase configuration (the config file is on the firebase folder)
-        var firebaseConfig = {
+        const firebaseConfig = {
             apiKey: "AIzaSyBVmFA1iK5MSKLIhf3ACo6E0meUeRbPCgs",
             authDomain: "medicalsuite-99e48.firebaseapp.com",
             projectId: "medicalsuite-99e48",
@@ -60,58 +56,54 @@
             messagingSenderId: "679686285511",
             appId: "1:679686285511:web:be7e727760a15a61a9f6e2"
         };
-        firebase.initializeApp(firebaseConfig);
 
-        // Get a reference to the Firestore database
-        var db = firebase.firestore();
+        const app = firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
 
-        // Get a reference to the Firebase Auth service
-        var auth = firebase.auth();
+        const registerForm = document.getElementById('register-form');
 
-        // Add an event listener to the registration form
-        document.getElementById("register-form").addEventListener("submit", function(event) {
-            event.preventDefault();
+        registerForm.addEventListener('submit', (e) => {
+            e.preventDefault();
 
-            // Get the form data
-            var name = document.getElementById("name").value;
-            var surname = document.getElementById("surname").value;
-            var phoneNumber = document.getElementById("phoneNumber").value;
-            var email = document.getElementById("email").value;
-            var password = document.getElementById("password").value;
-            var confirmPassword = document.getElementById("confirmPassword").value;
+            const name = registerForm['name'].value;
+            const surname = registerForm['surname'].value;
+            const phoneNumber = registerForm['phoneNumber'].value;
+            const email = registerForm['email'].value;
+            const password = registerForm['password'].value;
+            const confirmPassword = registerForm['confirmPassword'].value;
 
-            // Validate the form data
             if (name === "" || surname === "" || phoneNumber === "" || email === "" || password === "" || confirmPassword === "") {
-                alert("Please fill in all fields.");
-                return;
-            }
-            if (password !== confirmPassword) {
+                alert("Please fill in all the fields.");
+            } else if (password !== confirmPassword) {
                 alert("Passwords do not match.");
-                return;
-            }
+            } else {
+                auth.createUserWithEmailAndPassword(email, password)
+                    .then((userCredential) => {
+                        const user = userCredential.user;
 
-            // Create a new user account with Firebase Auth
-            auth.createUserWithEmailAndPassword(email, password)
-                .then(function(userCredential) {
-                    // Save the user data to Firestore
-                    db.collection("patients").doc(userCredential.user.uid).set({
-                        name: name,
-                        surname: surname,
-                        phoneNumber: phoneNumber,
-                        email: email,
-                        password: password
+                        db.collection("patients").doc(user.uid).set({
+                            name: name,
+                            surname: surname,
+                            phoneNumber: phoneNumber,
+                            email: email,
+                            password: password,
+                        })
+                            .then(() => {
+                                alert("Registration successful!");
+                                window.location.href = "/patient/login.html";
+                            })
+                            .catch((error) => {
+                                console.error("Error adding document: ", error);
+                            });
                     })
-                    .then(function() {
-                        alert("Registration successful!");
-                        window.location.href = "/patient/login.html"; // Redirect to login page
-                    })
-                    .catch(function(error) {
-                        alert("Error saving user data: " + error.message);
+                    .catch((error) => {
+                        const errorCode = error.code;
+                        const errorMessage = error.message;
+                        console.log(errorCode);
+                        console.log(errorMessage);
                     });
-                })
-                .catch(function(error) {
-                    alert("Error creating user account: " + error.message);
-                });
+            }
         });
     </script>
 

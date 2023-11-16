@@ -17,7 +17,14 @@
             </div>
             <div class="form-group">
                 <label for="password">Password:</label>
-                <input type="password" class="form-control" id="password" name="password">
+                <div class="input-group">
+                    <input type="password" class="form-control" id="password" name="password">
+                    <div class="input-group-append">
+                        <span class="input-group-text" id="password-toggle" onclick="togglePasswordVisibility()">
+                            <i class="fa fa-eye" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                </div>
             </div>
             <button type="submit" class="btn btn-primary">Login</button>
         </form>
@@ -25,14 +32,13 @@
     </div>
 
     <!-- Add Firebase JavaScript SDK -->
-    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
 
     <!-- Initialize Firebase -->
     <script>
-        var firebaseConfig = {
-            // Your Firebase config here
+        const firebaseConfig = {
             apiKey: "AIzaSyBVmFA1iK5MSKLIhf3ACo6E0meUeRbPCgs",
             authDomain: "medicalsuite-99e48.firebaseapp.com",
             projectId: "medicalsuite-99e48",
@@ -40,39 +46,50 @@
             messagingSenderId: "679686285511",
             appId: "1:679686285511:web:be7e727760a15a61a9f6e2"
         };
+
         firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
 
-        // Get a reference to the Firebase Firestore database
-        var db = firebase.firestore();
+        const loginForm = document.getElementById('login-form');
 
-        // Add an event listener to the login form
-        document.getElementById('login-form').addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent the form from submitting
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
 
-            // Get the user's email and password
-            var email = document.getElementById('email').value;
-            var password = document.getElementById('password').value;
+            const email = loginForm['email'].value;
+            const password = loginForm['password'].value;
 
-            // Simulate user authentication using Firestore (replace this with your custom logic)
-            db.collection('patients').where('email', '==', email).where('password', '==', password)
-                .get()
-                .then(function(querySnapshot) {
-                    if (querySnapshot.docs.length === 1) {
-                        // User authenticated successfully (found in Firestore)
-                        window.location.href = '/patient/dashboard.html';
-                        alert('Login successful');
-                    } else {
-                        // Authentication failed (user not found or invalid credentials)
-                        console.log('Authentication failed');
-                        alert('Check your email and password and try again');
-                    }
+            auth.signInWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    const user = userCredential.user;
+                    console.log(user);
+                    alert("Login successful.");
+                    window.location.href = "/patient/dashboard.html";
                 })
-                .catch(function(error) {
-                    // Handle authentication errors
-                    console.log('Authentication error:', error);
+                .catch((error) => {
+                    alert("Login failed.check your email and password.");
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    console.log(errorCode, errorMessage);
                 });
         });
+
+        function togglePasswordVisibility() {
+            const passwordInput = document.getElementById('password');
+            const passwordToggle = document.getElementById('password-toggle');
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                passwordToggle.innerHTML = '<i class="fa fa-eye-slash" aria-hidden="true"></i>';
+            } else {
+                passwordInput.type = 'password';
+                passwordToggle.innerHTML = '<i class="fa fa-eye" aria-hidden="true"></i>';
+            }
+        }
     </script>
+
+    <!-- Font Awesome icons -->
+    <script src="https://kit.fontawesome.com/e92a1f631e.js" crossorigin="anonymous"></script>
 
     <!-- Add Bootstrap JavaScript link (if needed) -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

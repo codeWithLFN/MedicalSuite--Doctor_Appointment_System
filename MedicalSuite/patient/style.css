@@ -1,177 +1,204 @@
+/* Reset some default styles */
+body, h1, h2, h5 {
+  margin: 0;
+}
+
 body {
-  font-family: 'Helvetica Neue', sans-serif;
+  font-family: 'Arial', sans-serif;
   background-color: #f8f9fa;
   color: #495057;
 }
 
-/* Add background image for the login page */
-body.login-bg {
-  background-image: url('/img/admin_login.jpg');
-  background-size: cover;
-  background-position: center;
+/* Navbar styling */
+.navbar {
+  background-color: lightsalmon;
 }
 
-/* Add background image for the register page */
-body.register-bg {
-  background-image: url('/img/MedicalSuite.jpg');
-  background-size: cover;
-  background-position: center;
+.navbar-brand {
+  font-size: 1.5rem;
+  color: #fff; /* Text color for the brand */
+}
+
+.navbar-toggler-icon {
+  background-color: black;
+}
+
+.navbar-nav .nav-link {
+  color: #fff;
+}
+
+.navbar-nav .nav-link:hover {
+  color: #17a2b8;
 }
 
 
 
-  .navbar {
-    background-color: #007bff;
-    color: white;
-  }
-
-  .container-dashboard {
-    margin-top: 20px;
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-
-  h1, h2 {
-    color: #007bff;
-  }
-
-  #doctorsGrid {
-    margin-top: 20px;
-  }
-
-  .card {
-    margin-bottom: 20px;
-  }
-
-  .card-title {
-    font-size: 1.2rem;
-    margin-bottom: 0.5rem;
-  }
-
-  .card-text {
-    color: #6c757d;
-  }
-
-  .btn-primary {
-    background-color: #007bff;
-    border-color: #007bff;
-  }
-
-  .btn-primary:hover {
-    background-color: #0056b3;
-    border-color: #0056b3;
-  }
-
-  .btn-success {
-    background-color: #28a745;
-    border-color: #28a745;
-  }
-
-  .btn-success:hover {
-    background-color: #218838;
-    border-color: #218838;
-  }
-
-  .table {
-    margin-top: 20px;
-  }
-
-  .table th, .table td {
-    text-align: center;
-  }
-
-  .modal-content {
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-
-  .modal-header {
-    background-color: #007bff;
-    color: white;
-    border-bottom: none;
-  }
-
-  .modal-footer {
-    border-top: none;
-  }
-
-  .modal-footer .btn {
-    border-radius: 8px;
-  }
-
-  .modal-footer .btn-primary {
-    background-color: #007bff;
-    border-color: #007bff;
-  }
-
-  .modal-footer .btn-primary:hover {
-    background-color: #0056b3;
-    border-color: #0056b3;
-  }
-
-  .modal-footer .btn-secondary {
-    background-color: #6c757d;
-    border-color: #6c757d;
-  }
-
+/* Container styling */
 .container {
-    max-width: 400px;
-    margin: auto;
-    padding: 20px;
-    background-color: #ffffff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    margin-top: 50px;
+  margin-top: 20px;
+  padding: 20px;
 }
 
-h1 {
-    text-align: center;
-    color: #007bff;
+/* Heading styling */
+h1, h2, h5 {
+  color: #007bff;
 }
 
-.form-group {
-    margin-bottom: 20px;
+/* Form container styling */
+form {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  padding: 20px;
 }
 
+/* Label styling */
 label {
-    font-weight: bold;
-    display: block;
-    margin-bottom: 5px;
+  font-weight: bold;
 }
 
-.form-control {
-    width: 100%;
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ced4da;
-    border-radius: 4px;
-}
-
+/* Primary button styling */
 .btn-primary {
-    background-color: #007bff;
-    border: none;
+  background-color: #007bff;
+  border-color: #007bff;
 }
 
 .btn-primary:hover {
-    background-color: #0056b3;
+  background-color: #0056b3;
+  border-color: #0056b3;
 }
 
-.text-center {
-    text-align: center;
+/* File input styling */
+.form-control-file {
+  margin-top: 10px;
 }
 
-.mt-3 {
-    margin-top: 15px;
+/* Logout link styling */
+#logout {
+  color: #dc3545;
 }
 
-a {
-    color: #007bff;
-    text-decoration: none;
+#logout:hover {
+  text-decoration: underline;
 }
 
-a:hover {
-    text-decoration: underline;
+/* Additional styling for alerts */
+.alert {
+  margin-bottom: 20px;
+}
+
+.alert-danger {
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+  color: #721c24;
+}
+
+.alert-success {
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+  color: #155724;
+}
+
+.alert-danger ul, .alert-success ul {
+  margin-bottom: 0;
+}
+
+.alert-danger ul li, .alert-success ul li {
+  list-style-type: none;
+}
+
+.alert-danger ul li:before {
+  content: "\f06a";
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  margin-right: 5px;
+}
+
+.alert-success ul li:before {
+  content: "\f058";
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  margin-right: 5px;
+}
+
+/* Additional styling for table */
+table {
+  background-color: #fff;
+  border: 1px solid #dee2e6;
+}
+
+table th, table td {
+  border: 1px solid #dee2e6;
+  padding: 10px;
+}
+
+table th {
+  background-color: #007bff;
+  color: #fff;
+}
+
+table th:first-child {
+  border-top-left-radius: 5px;
+}
+
+table th:last-child {
+  border-top-right-radius: 5px;
+}
+
+table tr:last-child td:first-child {
+  border-bottom-left-radius: 5px;
+}
+
+table tr:last-child td:last-child {
+  border-bottom-right-radius: 5px;
+}
+
+/* Additional styling for pagination links */
+.pagination {
+  margin-top: 20px;
+}
+
+.pagination li {
+  display: inline-block;
+}
+
+.pagination li a, .pagination li span {
+  background-color: #fff;
+  border: 1px solid #dee2e6;
+  color: #007bff;
+  padding: 6px 9px;
+}
+
+.pagination li.active a, .pagination li.active span {
+  background-color: #007bff;
+  border-color: #007bff;
+  color: #fff;
+}
+
+.pagination li:first-child a, .pagination li:first-child span {
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+.pagination li:last-child a, .pagination li:last-child span {
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+/* Additional styling for the footer */
+footer {
+  margin-top: 20px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+footer a {
+  color: #007bff;
+}
+
+footer a:hover {
+  color: #0056b3;
 }
 
