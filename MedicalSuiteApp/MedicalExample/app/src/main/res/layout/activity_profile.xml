@@ -1,0 +1,113 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="@color/design_default_color_background">
+
+    <ImageButton
+        android:id="@+id/btn_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/ic_back"
+        android:background="@android:color/transparent"/>
+
+    <TextView
+        android:id="@+id/tvProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="Profile"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvUsername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvProfile"
+        android:layout_marginTop="16dp"
+        android:text="Username: [PLACEHOLDER_USERNAME]"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/tvChangePassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvUsername"
+        android:layout_marginTop="16dp"
+        android:text="Change Password"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/etCurrentPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvChangePassword"
+        android:layout_marginTop="8dp"
+        android:hint="Current Password"
+        android:inputType="textPassword" />
+
+    <EditText
+        android:id="@+id/etNewPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/etCurrentPassword"
+        android:layout_marginTop="8dp"
+        android:hint="New Password"
+        android:inputType="textPassword" />
+
+    <Button
+        android:id="@+id/btnChangePassword"
+        android:layout_width="383dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/etNewPassword"
+        android:layout_marginTop="16dp"
+        android:text="Change Password" />
+
+    <!-- Delete Account Section -->
+
+    <TextView
+        android:id="@+id/tvDeleteAccount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btnChangePassword"
+        android:layout_marginTop="24dp"
+        android:text="Delete Account"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/etDeleteAccountPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvDeleteAccount"
+        android:layout_marginTop="8dp"
+        android:hint="Enter Password"
+        android:inputType="textPassword" />
+
+    <Button
+        android:id="@+id/btnDeleteAccount"
+        android:layout_width="395dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/etDeleteAccountPassword"
+        android:layout_marginTop="16dp"
+        android:text="Delete Account" />
+
+    <!-- Logout Button -->
+
+    <Button
+        android:id="@+id/btnLogout"
+        android:layout_width="393dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btnDeleteAccount"
+        android:layout_marginTop="33dp"
+        android:text="Logout" />
+
+    <!-- Navigation Bar -->
+
+
+
+</RelativeLayout>

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "679686285511",
+    "project_id": "medicalsuite-99e48",
+    "storage_bucket": "medicalsuite-99e48.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:679686285511:android:129b0b2f470936a7a9f6e2",
+        "android_client_info": {
+          "package_name": "com.example.medicalexample"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDLoG0-Xvgtc9_EUCpRXrx2VJ3c1NPjR3w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

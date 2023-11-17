@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@color/design_default_color_background"
+    android:layout_height="match_parent"
+    tools:context=".Home">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/navBar">
+
+        <TextView
+            android:id="@+id/r_text1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:fontFamily="@font/poppinssemibold"
+            android:text="Doctors"
+            android:textColor="@color/black"
+            android:textSize="25sp" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/menuBtn"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="15dp"
+            android:src="@drawable/menu_black"
+            android:background="@android:color/transparent"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/content1"
+        android:layout_width="match_parent"
+        android:layout_height="681dp"
+        android:layout_below="@id/navBar"
+        android:layout_marginTop="14dp">
+
+        <ImageView
+            android:id="@+id/shape1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:src="@drawable/shape1" />
+
+        <TextView
+            android:id="@+id/Dr_Linda"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="190dp"
+            android:background="@drawable/button_shape"
+            android:backgroundTint="@color/white"
+            android:drawableStart="@drawable/person"
+            android:drawablePadding="5dp"
+            android:fontFamily="@font/poppinsregular"
+            android:hint="Dr Max Smith"
+            android:paddingLeft="15dp"
+            android:textColor="@color/black"
+            android:textSize="20dp" />
+
+        <Button
+            android:id="@+id/Dr_Linda_Btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/Dr_Linda"
+            android:layout_centerHorizontal="true"
+            android:text="Book Now" />
+
+        <TextView
+            android:id="@+id/Dr_Claire_Blake"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/Dr_Linda_Btn"
+            android:background="@drawable/button_shape"
+            android:backgroundTint="@color/white"
+            android:drawableStart="@drawable/person"
+            android:drawablePadding="5dp"
+            android:fontFamily="@font/poppinsregular"
+            android:hint="Dr Thabiso Mathews"
+            android:paddingLeft="15dp"
+            android:textColor="@color/black"
+            android:textSize="20dp" />
+
+        <Button
+            android:id="@+id/Dr_Claire_Blake_Btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/Dr_Claire_Blake"
+            android:layout_centerHorizontal="true"
+            android:text="Book Now" />
+
+        <TextView
+            android:id="@+id/Dr_Ndivhuho_Lionel_Tshishonga"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/Dr_Claire_Blake_Btn"
+            android:background="@drawable/button_shape"
+            android:backgroundTint="@color/white"
+            android:drawableStart="@drawable/person"
+            android:drawablePadding="5dp"
+            android:fontFamily="@font/poppinsregular"
+            android:hint="Dr.N.L Tshishonga"
+            android:paddingLeft="15dp"
+            android:textColor="@color/black"
+            android:textSize="20dp" />
+
+        <Button
+            android:id="@+id/Dr_Ndivhuho_Lionel_Tshishonga_Btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/Dr_Ndivhuho_Lionel_Tshishonga"
+            android:layout_centerHorizontal="true"
+            android:text="Book Now" />
+
+        <Button
+            android:id="@+id/healthTipsButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Health Tips" />
+
+        <!-- New appointment view button -->
+        <Button
+            android:id="@+id/viewAppointment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/healthTipsButton"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="40dp"
+            android:text="View Appointments" />
+
+
+    </RelativeLayout>
+</RelativeLayout>
