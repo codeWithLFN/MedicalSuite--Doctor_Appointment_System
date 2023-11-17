@@ -11,14 +11,18 @@ MedicalSuite is a comprehensive solution that includes both a web application an
 
 Meet the team behind MedicalSuite:
 
+### Website 
+
 ### Ofentse Sithole
 - GitHub: [ofentse-sithole](https://github.com/ofentse-sithole)
 
-### Thato Ndlovu
-- GitHub: [Gatsheni001](https://github.com/Gatsheni001)
-
 ### Lufuno Nemudzivhadi
 - GitHub: [codebyLFN](https://github.com/codebyLFN)
+
+### Mobile App
+
+### Thato Ndlovu
+- GitHub: [Gatsheni001](https://github.com/Gatsheni001)
 
 ### Bennet Ramphisa
 - GitHub: [Bennet09](https://github.com/Bennet09)
