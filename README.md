@@ -11,7 +11,7 @@ MedicalSuite is a comprehensive solution that includes both a web application an
 
 Meet the team behind MedicalSuite:
 
-### Website 
+### Web Application
 
 ### Ofentse Sithole
 - GitHub: [ofentse-sithole](https://github.com/ofentse-sithole)
