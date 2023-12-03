@@ -9,6 +9,9 @@
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="/patient/style.css">
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <!-- Sendgrid -->
+  <script src="https://cdn.emailjs.com/sdk/2.3.2/email.min.js"></script>
+  <script src="https://stackpath.sendgrid.com/static/sendgrid.js"></script>
 </head>
 <body>
   <nav class="navbar navbar-expand-md">
@@ -149,6 +152,9 @@
   function setAppointment(doctorId) {
     const appointmentDate = document.getElementById("appointmentDate").value;
     const appointmentTime = document.getElementById("appointmentTime").value;
+  
+    doctorId = "ngZS5vhfzVqDnLPy1Lg0";
+     
 
     // Validate appointment date and time (if needed)
     // If appointmentTime is before 10:00 and after 16:00, display an error message
@@ -164,6 +170,7 @@
       alert("Please set an appointment for today or a future date.");
       return;
     }
+    
 
     // Get the current user
     const user = firebase.auth().currentUser;
@@ -226,38 +233,40 @@
     }
   }
 
-  // Function to send email confirmation using Mailgun SMTP
-  function sendEmailConfirmation(email, appointmentDate, appointmentTime) {
-    // Replace these with your Mailgun API key and domain
-    const apiKey = "your-mailgun-api-key";
-    const domain = "your-mailgun-domain";
+  // Set the SendGrid API key directly
+  const sgMailApiKey = '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';
 
-    // Set up Mailgun API endpoint
-    const mailgunEndpoint = `https://api.mailgun.net/v3/${domain}/messages`;
+  // Function to send email confirmation using sendgrid
+  function sendEmailConfirmation(email, appointmentDate, appointmentTime, doctorName, patientName, doctorSurname) {
+  // Compose the email message
+  const emailContent = `
+    Dear ${patientName},
+    
+    Your appointment on ${appointmentDate} at ${appointmentTime} with Dr. ${doctorName} ${doctorSurname} is confirmed.
 
-    // Set up Mailgun API request headers
-    const headers = {
-      Authorization: `Basic ${btoa(`api:${apiKey}`)}`,
-      "Content-Type": "application/x-www-form-urlencoded",
-    };
+    Best regards,
+    Medical Suite
+  `;
 
-    // Set up Mailgun API request data
-    const data = new URLSearchParams();
-    data.append("from", "MedicalSuite <noreply@medicalSuite.com>");
-    data.append("to", email);
-    data.append("subject", "Appointment Confirmation");
-    data.append("text", `Your appointment on ${appointmentDate} at ${appointmentTime} is confirmed.`);
+  // Prepare the SendGrid email object
+  const sgEmail = {
+    to: email,
+    from: 'appointment@medicalsuite.com',
+    subject: 'Appointment Confirmation',
+    text: emailContent,
+  };
 
-    // Make the Mailgun API request
-    axios.post(mailgunEndpoint, data, { headers: headers })
-      .then((response) => {
-        console.log("Email sent successfully:", response.data);
-      })
-      .catch((error) => {
-        console.error("Error sending email:", error.response.data);
-      });
+  // Use the SendGrid library to send the email
+  sendgrid.send(sgEmail, (error, result) => {
+    if (error) {
+      console.error('Error sending email:', error);
+      alert('Error sending email. Please try again.');
+    } else {
+      console.log('Email sent successfully:', result);
+      alert('Email sent successfully!');
+    }
+  });
   }
-
   // Function to display patient's name
   function displayPatientName(patientId) {
     const patientName = document.getElementById("patientName");
